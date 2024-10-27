@@ -25,15 +25,7 @@ public class TankDrive extends OpMode {
     public void loop() {
         double leftPower = -gamepad1.left_stick_y;
         double rightPower = -gamepad1.right_stick_y;
-        boolean armFunction = gamepad2.y;
-        double armPower = 0;
-
-        if(armFunction = true) {
-            armPower = 1;
-        }
-        else {
-            armPower=0;
-        }
+        float armPower = -gamepad2.right_stick_y;
 
         leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
@@ -42,5 +34,9 @@ public class TankDrive extends OpMode {
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
         arm.setPower(armPower);
+        sleep(1000);
+    }
+
+    private void sleep(int i) {
     }
 }
