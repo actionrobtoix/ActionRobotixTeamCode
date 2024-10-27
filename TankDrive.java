@@ -9,14 +9,14 @@ public class TankDrive extends OpMode {
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
-    private DcMotor armMotor;
+    private DcMotor arm;
     @Override
     public void init() {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        armMotor = hardwareMap.get(DcMotor.class, "arm");
+        arm = hardwareMap.get(DcMotor.class, "arm");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -25,12 +25,22 @@ public class TankDrive extends OpMode {
     public void loop() {
         double leftPower = -gamepad1.left_stick_y;
         double rightPower = -gamepad1.right_stick_y;
-        boolean armFunction = gamepad1.y;
+        boolean armFunction = gamepad2.y;
+        double armPower = 0;
+
+        if(armFunction = true) {
+            armPower = 1;
+        }
+        else {
+            armPower=0;
+        }
+
         leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
         frontLeft.setPower(leftPower);
         frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
+        arm.setPower(armPower);
     }
 }
