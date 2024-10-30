@@ -34,6 +34,8 @@ public class TankDrive extends OpMode {
 
         leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
+        armUpPower = armUpPower * armUpPower * armUpPower;
+        armDownPower = armDownPower * armDownPower * armDownPower;
         frontLeft.setPower(leftPower);
         frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
