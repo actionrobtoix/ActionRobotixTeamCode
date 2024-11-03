@@ -14,6 +14,7 @@ public class TankDrive extends OpMode {
     private DcMotor backRight;
     private DcMotor arm;
     public CRServo claw;
+    
 
     @Override
     public void init() {
@@ -31,33 +32,39 @@ public class TankDrive extends OpMode {
 
     @Override
     public void loop() {
+       
+        // claw control conditional
+        if (gamepad2.a) {
+            claw.setPower(0.5);
+        }
+       
         // Tank drive control
+
         double leftPower = -gamepad1.left_stick_y;
         double rightPower = -gamepad1.right_stick_y;
+       
+       // claw control 
+        double clawPower = -gamepad2.left_stick_y;
+
+        // Arm control
+        float armPower = -gamepad2.right_stick_y;  
 
         // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
+        armPower = armPower * armPower * armPower;
+        clawPower = clawPower * clawPower * clawPower;
+
 
         // Set power for the drive motors
         frontLeft.setPower(leftPower);
         frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
-
-        // Arm control
-        float armPower = -gamepad2.right_stick_y; // Use only one control
+        
+        // set actual value for arm and claw
         arm.setPower(armPower);
-
-        // Claw control
-        if (gamepad2.a) {
-            claw.setPower(1);
-        } else if (gamepad2.b) {
-            claw.setPower(-1);
-        } else {
-            claw.setPower(0);
+        claw.setPower(clawPower);
         }
 
-        // Optional: remove sleep; if you need to slow down the loop, consider adjusting your gamepad polling frequency
     }
-}
