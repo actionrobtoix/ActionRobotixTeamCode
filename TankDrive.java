@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 @TeleOp
 public class TankDrive extends OpMode {
     private DcMotor frontLeft;
@@ -11,7 +13,8 @@ public class TankDrive extends OpMode {
     private DcMotor backLeft;
     private DcMotor backRight;
     private DcMotor arm;
-    public CRServo servo;
+    public CRServo claw;
+
     @Override
     public void init() {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -19,42 +22,42 @@ public class TankDrive extends OpMode {
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        servo = hardwareMap.get(CRServo.class, "claw");
+        claw = hardwareMap.get(CRServo.class, "claw");
 
+        // Reverse the left motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
     }
+
     @Override
     public void loop() {
+        // Tank drive control
         double leftPower = -gamepad1.left_stick_y;
         double rightPower = -gamepad1.right_stick_y;
-        float armUpPower = -gamepad2.right_stick_y;
-        float armDownPower = -gamepad2.left_stick_y;
 
-
+        // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
-        armUpPower = armUpPower * armUpPower * armUpPower;
-        armDownPower = armDownPower * armDownPower * armDownPower;
+
+        // Set power for the drive motors
         frontLeft.setPower(leftPower);
         frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
-        arm.setPower(armUpPower);
-        arm.setPower(armDownPower);
 
+        // Arm control
+        float armPower = -gamepad2.right_stick_y; // Use only one control
+        arm.setPower(armPower);
 
+        // Claw control
         if (gamepad2.a) {
-            servo.setPower(1);
+            claw.setPower(1);
+        } else if (gamepad2.b) {
+            claw.setPower(-1);
+        } else {
+            claw.setPower(0);
         }
 
-        if (gamepad2.b) {
-            servo.setPower(-1);
-        }
-
-        sleep(1000);
-    }
-
-    private void sleep(int i) {
+        // Optional: remove sleep; if you need to slow down the loop, consider adjusting your gamepad polling frequency
     }
 }
