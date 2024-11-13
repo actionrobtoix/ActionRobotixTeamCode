@@ -24,34 +24,40 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
 
-        /*moveForward((float) 0.3, 1000);
-        sleep(250);*/
-        turnRight((float) 0.3,1475);
+
+        moveForward((float) 0.3, 2850);
         sleep(250);
-        turnLeft((float) 0.3,50);
-        moveForward((float) 0.3, 800);
-        /*sleep(1);
-        turnLeft((float) 0.5,680);
-        moveForward((float) 0.5, 600);
-        turnRight((float) 0.5,680);
-        moveForward((float) 0.5, 400);
-        turnRight((float) 0.5,680);
-        moveForward((float) 0.5, 1100);
-        moveBackward((float) 0.5, 1200);
-        turnLeft((float)0.5, 680);
-        turnRight((float)0.5, 680);
-        moveForward((float)0.5, 1200);
-        moveBackward((float)0.5, 1300);
-        turnLeft((float)0.5, 680);
-        turnRight((float)0.5, 680);
-        moveForward((float)0.5, 1300);
-        moveBackward((float)0.5, 1500);
-        turnRight((float) 0.5,680);
-        moveForward((float)0.5, 800);*/
+        turnLeft((float) 0.3,1415);
+        sleep(250);
+        moveForward((float) 0.3, 200);
+        sleep(250);
+        turnLeft((float) 0.3,1415);
+        sleep(250);
+        moveForward((float) 0.3, 2500);
+        sleep(250);
+        moveBackward((float) 0.3, 2500);
+        sleep(250);
+        turnRight((float) 0.3, 200);
+        sleep(250);
+        moveForward((float) 0.3, 2200);
+        sleep(250);
+        moveBackward((float) 0.3, 2400);
+        sleep(250);
+        turnRight((float) 0.3, 350);
+        sleep(250);
+        moveForward((float) 0.3, 450);
+        sleep(250);
+        turnLeft((float) 0.3, 500);
+        sleep(250);
+        moveForward((float) 0.3, 2000);
+
+
     }
     public void moveForward (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeft.setPower(power);
         frontRight.setPower(power);
         backLeft.setPower(power);
