@@ -14,7 +14,7 @@ public class TankDrive extends OpMode {
     private DcMotor backRight;
     private DcMotor arm;
     public CRServo claw;
-    public CRServo rotary;
+    public Servo rotary;
 
 
     @Override
@@ -25,7 +25,7 @@ public class TankDrive extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         arm = hardwareMap.get(DcMotor.class, "arm");
         claw = hardwareMap.get(CRServo.class, "claw");
-        rotary = hardwareMap.get(CRServo.class, "Rotary");
+        rotary = hardwareMap.get(Servo.class, "Rotary");
 
         // Reverse the left motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -35,18 +35,35 @@ public class TankDrive extends OpMode {
     @Override
     public void loop() {
 
+
+
+
         if(gamepad2.a){
         claw.setPower(-1);
         }
         if(gamepad2.b){
             claw.setPower(1);
         }
+        else {
+            claw.setPower(0);
+        }
+        //  if(gamepad2.a){
+        //        claw.setPower(-1);
+        //        }
+        //        if(gamepad2.b){
+        //            claw.setPower(1);
+        //        }
+        //        else {
+        //            claw.setPower(0);
+        //        }
 
         if(gamepad2.y){
-            rotary.setPower(-1);
+            rotary.setPosition(-1);
         }
         if(gamepad2.x){
-            rotary.setPower(1);
+            rotary.setPosition(1);        }
+        else {
+            rotary.setPosition(0);
         }
 
 
