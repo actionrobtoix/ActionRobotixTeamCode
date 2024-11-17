@@ -14,7 +14,7 @@ public class TankDrive extends OpMode {
     private DcMotor backRight;
     private DcMotor arm;
     public CRServo claw;
-    public Servo rotary;
+    public CRServo rotary;
 
 
     @Override
@@ -25,7 +25,7 @@ public class TankDrive extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         arm = hardwareMap.get(DcMotor.class, "arm");
         claw = hardwareMap.get(CRServo.class, "claw");
-        rotary = hardwareMap.get(Servo.class, "Rotary");
+        rotary = hardwareMap.get(CRServo.class, "Rotary");
 
         // Reverse the left motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -35,11 +35,8 @@ public class TankDrive extends OpMode {
     @Override
     public void loop() {
 
-
-
-
         if(gamepad2.a){
-        claw.setPower(-1);
+            claw.setPower(-1);
         }
         if(gamepad2.b){
             claw.setPower(1);
@@ -47,23 +44,15 @@ public class TankDrive extends OpMode {
         else {
             claw.setPower(0);
         }
-        //  if(gamepad2.a){
-        //        claw.setPower(-1);
-        //        }
-        //        if(gamepad2.b){
-        //            claw.setPower(1);
-        //        }
-        //        else {
-        //            claw.setPower(0);
-        //        }
 
         if(gamepad2.y){
-            rotary.setPosition(-1);
+            rotary.setPower(-1);
         }
         if(gamepad2.x){
-            rotary.setPosition(1);        }
+            rotary.setPower(1);
+        }
         else {
-            rotary.setPosition(0);
+            rotary.setPower(0);
         }
 
 
@@ -75,7 +64,7 @@ public class TankDrive extends OpMode {
         double leftPower = -gamepad1.left_stick_y;
         double rightPower = -gamepad1.right_stick_y;
 
-       // claw control
+        // claw control
 
         // Arm control
         float armPower = -gamepad2.right_stick_y;
@@ -95,7 +84,7 @@ public class TankDrive extends OpMode {
         // set actual value for arm and claw
         arm.setPower(armPower);
 
-        }
-
-
     }
+
+
+}
