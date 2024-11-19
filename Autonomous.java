@@ -27,9 +27,9 @@ public class Autonomous extends LinearOpMode {
 
         moveForward((float) 0.3, 2850);
         sleep(250);
-        turnLeft((float) 0.3,1415);
+        turnLeft((float) 0.3,1435);
         sleep(250);
-        moveForward((float) 0.3, 200);
+        moveForward((float) 0.3, 190);
         sleep(250);
         turnLeft((float) 0.3,1375);
         sleep(250);
@@ -37,19 +37,27 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         moveBackward((float) 0.3, 2500);
         sleep(250);
-        turnRight((float) 0.3, 200);
+        turnRight((float) 0.3, 600);
         sleep(250);
-        moveForward((float) 0.3, 2200);
+        moveForward((float) 0.3, 250);
         sleep(250);
-        moveBackward((float) 0.3, 2400);
+        turnLeft((float) 0.3,750);
+        sleep(250);
+        moveForward((float) 0.3, 1200);
+        sleep(375);
+        /*moveBackward((float) 0.3, 2400);
         sleep(250);
         turnRight((float) 0.3, 350);
         sleep(250);
-        moveForward((float) 0.3, 600);
+        moveForward((float) 0.3, 525);
         sleep(250);
-        turnLeft((float) 0.3, 1415);
+        turnLeft((float) 0.3, 1465);
         sleep(250);
-        moveForward((float) 0.3, 2000);
+        moveForward((float) 0.3, 1000);
+        turnLeft((float) 0.3, 900);
+        moveForward((float) 0.3, 500);*/
+
+
 
 
     }
