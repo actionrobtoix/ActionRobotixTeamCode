@@ -24,12 +24,11 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
 
-
         moveForward((float) 0.3, 2850);
         sleep(250);
-        turnLeft((float) 0.3,1435);
+        turnLeft((float) 0.3,1375);
         sleep(250);
-        moveForward((float) 0.3, 190);
+        moveForward((float) 0.3, 200);
         sleep(250);
         turnLeft((float) 0.3,1375);
         sleep(250);
@@ -37,29 +36,28 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         moveBackward((float) 0.3, 2500);
         sleep(250);
-        turnRight((float) 0.3, 600);
+        turnRight((float) 0.3, 500);
         sleep(250);
-        moveForward((float) 0.3, 325);
+        moveForward((float) 0.3, 450);
         sleep(250);
-        turnLeft((float) 0.3,750);
+        turnLeft((float) 0.3, 500);
         sleep(250);
-        moveForward((float) 0.3, 1500);
+        moveForward((float) 0.3, 2200);
         sleep(250);
-        /*moveBackward((float) 0.3, 2400);
+        moveBackward((float) 0.3, 900);
         sleep(250);
-        turnRight((float) 0.3, 350);
+        turnLeft((float) 0.3, 350);
         sleep(250);
-        moveForward((float) 0.3, 525);
+        moveForward((float) 0.3, 600);
         sleep(250);
-        turnLeft((float) 0.3, 1465);
+        turnLeft((float) 0.3, 1175);
         sleep(250);
-        moveForward((float) 0.3, 1000);
-        turnLeft((float) 0.3, 900);
-        moveForward((float) 0.3, 500);*/
-
-
-
-
+        moveForward((float) 0.5, 3200);
+        sleep(250);
+        turnRight((float) 1.0, 200);
+        sleep(250);
+        moveForward((float) 0.3, 200);
+        sleep(250);
     }
     public void moveForward (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
