@@ -56,9 +56,23 @@ public class TankDrive extends OpMode {
         }
 
 
+            double forward = 1;
+            double back = 1;
+if(gamepad1.left_bumper) {
+    backLeft.setPower(forward);
+    backRight.setPower(back);
+    frontLeft.setPower(back);
+    frontRight.setPower(forward);
+}
+else if(gamepad1.right_bumper)
+{
 
+    backLeft.setPower(back);
+    backRight.setPower(forward);
+    frontLeft.setPower(forward);
+    frontRight.setPower(back);
 
-
+        }
         // Tank drive control
 
         double leftPower = -gamepad1.left_stick_y;
