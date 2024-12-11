@@ -11,6 +11,7 @@ public class Autonomous extends LinearOpMode {
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
+    private DcMotor arm;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -18,34 +19,41 @@ public class Autonomous extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+        arm = hardwareMap.get(DcMotor.class, "arm");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
-        moveForward((float) 0.5, 2950);
+        moveForward((float) 0.3, 2950);
         sleep(250);
         turnLeft((float) 0.3,1000);
         sleep(250);
-        moveForward((float) 0.3, 400);
+        moveForward((float) 0.3, 250);
         sleep(250);
-        turnRight((float) 0.3,1375);
+        turnRight((float) 0.3,1200);
         sleep(250);
-        moveBackward((float) 0.3, 2850);
+        moveBackward((float) 0.3, 3100);
         sleep(250);
-        moveForward((float) 0.3, 2500);
+        moveForward((float) 0.3, 2825);
         sleep(250);
-        turnLeft((float) 0.3, 1300);
+        turnLeft((float) 0.3, 1200);
         sleep(250);
-        moveForward((float) 0.3, 850);
+        moveForward((float) 0.3, 700);
         sleep(250);
-        turnRight((float) 0.3, 1050);
+        turnRight((float) 0.3, 1000);
         sleep(250);
-        moveBackward((float) 0.3, 2800);
+        moveBackward((float) 0.3, 2950);
         sleep(250);
-
-
+        moveForward((float) 0.3, 3150);
+        sleep(250);
+        turnLeft((float) 0.3, 1350);
+        sleep(250);
+        moveBackward((float) 0.3, 1250);
+        sleep(250);
+        raiseArm((float) 0.3, 1400);
+        sleep(250);
         /*moveBackward((float) 0.3, 900);
         sleep(250);
         turnLeft((float) 0.3, 350);
@@ -122,6 +130,11 @@ public class Autonomous extends LinearOpMode {
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
+    }
+    public void raiseArm (float power, int time){
+        arm.setPower(power);
+        sleep(time);
+        arm.setPower(0);
     }
 }
 /*package org.firstinspires.ftc.teamcode;
