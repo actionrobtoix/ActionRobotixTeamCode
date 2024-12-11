@@ -1,1 +1,1 @@
-Action Robotix FTC World Champions Team Code
+Action Robotix Team Code
