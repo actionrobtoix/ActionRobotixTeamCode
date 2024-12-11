@@ -45,10 +45,10 @@ public class TankDrive extends OpMode {
             claw.setPower(0);
         }
 
-        if(gamepad2.y){
+        if(gamepad1.a){
             rotary.setPower(-1);
         }
-        if(gamepad2.x){
+        if(gamepad1.b){
             rotary.setPower(1);
         }
         else {
@@ -56,21 +56,21 @@ public class TankDrive extends OpMode {
         }
 
 
-            double forward = 1;
-            double back = 1;
-if(gamepad1.left_bumper) {
-    backLeft.setPower(forward);
-    backRight.setPower(back);
-    frontLeft.setPower(back);
-    frontRight.setPower(forward);
-}
-else if(gamepad1.right_bumper)
-{
+        double forward = 1;
+        double back = -1;
+        if(gamepad1.left_bumper) {
+            backLeft.setPower(forward);
+            backRight.setPower(back);
+            frontLeft.setPower(back);
+            frontRight.setPower(forward);
+        }
+        else if(gamepad1.right_bumper)
+        {
 
-    backLeft.setPower(back);
-    backRight.setPower(forward);
-    frontLeft.setPower(forward);
-    frontRight.setPower(back);
+            backLeft.setPower(back);
+            backRight.setPower(forward);
+            frontLeft.setPower(forward);
+            frontRight.setPower(back);
 
         }
         // Tank drive control
