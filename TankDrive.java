@@ -12,7 +12,11 @@ public class TankDrive extends OpMode {
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
-    private DcMotor arm;
+    private DcMotor horizontalSlide;
+    private DcMotor verticalSlide1;
+    private DcMotor verticalSlide2;
+
+
     public CRServo claw;
     public CRServo rotary;
 
@@ -23,7 +27,12 @@ public class TankDrive extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        arm = hardwareMap.get(DcMotor.class, "arm");
+        horizontalSlide = hardwareMap.get(DcMotor.class, "horizontalSlide");
+        verticalSlide1 = hardwareMap.get(DcMotor.class, "verticalSlide1");
+        verticalSlide2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
+
+
+
         claw = hardwareMap.get(CRServo.class, "claw");
         rotary = hardwareMap.get(CRServo.class, "Rotary");
 
@@ -35,25 +44,17 @@ public class TankDrive extends OpMode {
     @Override
     public void loop() {
 
-        if(gamepad2.a){
+        if(gamepad1.a){
             claw.setPower(-1);
         }
-        if(gamepad2.b){
+        if(gamepad1.b){
             claw.setPower(1);
         }
         else {
             claw.setPower(0);
         }
 
-        if(gamepad1.a){
-            rotary.setPower(-1);
-        }
-        if(gamepad1.b){
-            rotary.setPower(1);
-        }
-        else {
-            rotary.setPower(0);
-        }
+        
 
 
         double forward = 1;
@@ -64,8 +65,7 @@ public class TankDrive extends OpMode {
             frontLeft.setPower(back);
             frontRight.setPower(forward);
         }
-        else if(gamepad1.right_bumper)
-        {
+        else if(gamepad1.right_bumper) {
 
             backLeft.setPower(back);
             backRight.setPower(forward);
@@ -73,6 +73,7 @@ public class TankDrive extends OpMode {
             frontRight.setPower(back);
 
         }
+
         // Tank drive control
 
         double leftPower = -gamepad1.left_stick_y;
@@ -81,12 +82,21 @@ public class TankDrive extends OpMode {
         // claw control
 
         // Arm control
-        float armPower = -gamepad2.right_stick_y;
+        float horizontalPower = -gamepad2.left_stick_y;
+        float verticalPower1 = -gamepad2.right_stick_y;
+        float verticalPower2 = -gamepad2.right_stick_y;
+
+
 
         // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
-        armPower = armPower * armPower * armPower;
+        horizontalPower = horizontalPower * horizontalPower * horizontalPower;
+        verticalPower1  = verticalPower1  * verticalPower1  * verticalPower1;
+        verticalPower2  = verticalPower2  * verticalPower2  * verticalPower2;
+
+
+
 
 
         // Set power for the drive motors
@@ -96,7 +106,12 @@ public class TankDrive extends OpMode {
         backRight.setPower(rightPower);
 
         // set actual value for arm and claw
-        arm.setPower(armPower);
+        horizontalSlide.setPower(horizontalPower);
+         verticalSlide1.setPower(verticalPower1);
+        verticalSlide2.setPower(verticalPower2);
+
+
+
 
     }
 
