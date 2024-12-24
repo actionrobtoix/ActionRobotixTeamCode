@@ -17,7 +17,7 @@ public class TankDrive extends OpMode {
     private DcMotor vShaft2;
 
 
-    public CRServo claw;
+    public Servo claw;
     public CRServo rotary;
     public CRServo basket;
 
@@ -36,7 +36,7 @@ public class TankDrive extends OpMode {
 
 
 
-        claw = hardwareMap.get(CRServo.class, "claw");
+        claw = hardwareMap.get(Servo.class, "claw");
         rotary = hardwareMap.get(CRServo.class, "Rotary");
         basket = hardwareMap.get(CRServo.class, "basket");
 
@@ -51,13 +51,10 @@ public class TankDrive extends OpMode {
     public void loop() {
 // claw control
         if(gamepad1.a){
-            claw.setPower(-1);
+            claw.setPosition(0.5);
         }
-        if(gamepad1.b){
-            claw.setPower(1);
-        }
-        else {
-            claw.setPower(0);
+        if(gamepad1.b) {
+            claw.setPosition(-1);
         }
 // rotary control
         if(gamepad2.left_bumper){
