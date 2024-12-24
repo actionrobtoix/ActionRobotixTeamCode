@@ -78,27 +78,7 @@ public class TankDrive extends OpMode {
 
 
 
-        double strafePower = 0.5; // Adjust as needed
-
-        if (gamepad1.left_bumper) {
-            // Strafe left
-            backLeft.setPower(-strafePower);
-            backRight.setPower(strafePower);
-            frontLeft.setPower(strafePower);
-            frontRight.setPower(-strafePower);
-        } else if (gamepad1.right_bumper) {
-            // Strafe right
-            backLeft.setPower(strafePower);
-            backRight.setPower(-strafePower);
-            frontLeft.setPower(-strafePower);
-            frontRight.setPower(strafePower);
-        } else {
-            // Tank drive control
-            frontLeft.setPower(leftPower);
-            frontRight.setPower(rightPower);
-            backLeft.setPower(leftPower);
-            backRight.setPower(rightPower);
-        }
+        
 
 
 
@@ -139,7 +119,27 @@ public class TankDrive extends OpMode {
          vShaft.setPower(vShaftPower);
         vShaft2.setPower(vShaftPower2);
 
+        double strafePower = 0.5; // Adjust as needed
 
+        if (gamepad1.left_bumper) {
+            // Strafe left
+            backLeft.setPower(-strafePower);
+            backRight.setPower(strafePower);
+            frontLeft.setPower(strafePower);
+            frontRight.setPower(-strafePower);
+        } else if (gamepad1.right_bumper) {
+            // Strafe right
+            backLeft.setPower(strafePower);
+            backRight.setPower(-strafePower);
+            frontLeft.setPower(-strafePower);
+            frontRight.setPower(strafePower);
+        } else {
+            // Tank drive control
+            frontLeft.setPower(leftPower);
+            frontRight.setPower(rightPower);
+            backLeft.setPower(leftPower);
+            backRight.setPower(rightPower);
+        }
 
 
     }
