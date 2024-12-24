@@ -51,17 +51,17 @@ public class TankDrive extends OpMode {
     public void loop() {
 // claw control
         if(gamepad1.a){
-            claw.setPosition(0.5);
+            claw.setPosition(0);
         }
         if(gamepad1.b) {
-            claw.setPosition(-1);
+            claw.setPosition(1);
         }
 
         if(gamepad1.x){
-            basket.setPosition(-1);
+            basket.setPosition(1);
         }
         if(gamepad1.y) {
-            basket.setPosition(1);
+            basket.setPosition(0.5);
         }
 // rotary control
         if(gamepad2.left_bumper){
@@ -81,19 +81,28 @@ public class TankDrive extends OpMode {
         double strafePower = 0.5; // Adjust as needed
 
         if (gamepad1.left_bumper) {
+            // Strafe left
             backLeft.setPower(-strafePower);
             backRight.setPower(strafePower);
             frontLeft.setPower(strafePower);
             frontRight.setPower(-strafePower);
         } else if (gamepad1.right_bumper) {
+            // Strafe right
             backLeft.setPower(strafePower);
             backRight.setPower(-strafePower);
             frontLeft.setPower(-strafePower);
             frontRight.setPower(strafePower);
+        } else {
+            // Tank drive control
+            frontLeft.setPower(leftPower);
+            frontRight.setPower(rightPower);
+            backLeft.setPower(leftPower);
+            backRight.setPower(rightPower);
         }
 
 
-            // Tank drive control
+
+        // Tank drive control
 
         double leftPower = -gamepad1.left_stick_y;
         double rightPower = -gamepad1.right_stick_y;
