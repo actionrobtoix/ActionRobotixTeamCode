@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 //ONE TILE DISTANCE IS 350 MILLISECONDS AT 1 POWER
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -14,6 +15,8 @@ public class Autonomous extends LinearOpMode {
     //private DcMotor arm;
     private DcMotor vShaft;
     private DcMotor hShaft;
+    public CRServo claw;
+    public CRServo rotary;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,6 +27,8 @@ public class Autonomous extends LinearOpMode {
         //arm = hardwareMap.get(DcMotor.class, "arm");
         vShaft = hardwareMap.get(DcMotor.class, "vShaft");
         hShaft = hardwareMap.get(DcMotor.class, "hShaft");
+        claw = hardwareMap.get(CRServo.class, "claw");
+        rotary = hardwareMap.get(CRServo.class, "rotary");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -56,9 +61,9 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         moveBackward((float) 0.3, 1250);
         sleep(250);
-        vSlide((float) 0.3, 1400);
+        vSlide(0.3, 1400);
         sleep(250);
-        hSlide((float) 0.3, 1400);
+        hSlide(0.3, 1400);
         sleep(250);
         strafeLeft((float) 0.3, 800);
         sleep(250);
@@ -72,6 +77,12 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         leftForward((float) 0.3, 500);
         sleep(250);
+        moveClaw(-0.3, 175);
+        sleep(250);
+        moveRotary(0.3,175);
+        sleep(250);
+
+
         /*moveBackward((float) 0.3, 900);
         sleep(250);
         turnLeft((float) 0.3, 350);
@@ -149,12 +160,12 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void vSlide(float power, int time){
+    public void vSlide(double power, int time){
         vShaft.setPower(power);
         sleep(time);
         vShaft.setPower(0);
     }
-    public void hSlide(float power, int time){
+    public void hSlide(double power, int time){
         hShaft.setPower(power);
         sleep(time);
         hShaft.setPower(0);
@@ -234,6 +245,16 @@ public class Autonomous extends LinearOpMode {
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
+    }
+    public void moveClaw(double power, int time){
+        claw.setPower(power);
+        sleep(time);
+        claw.setPower(0);
+    }
+    public void moveRotary(double power, int time){
+        rotary.setPower(power);
+        sleep(time);
+        rotary.setPower(0);
     }
 }
 /*package org.firstinspires.ftc.teamcode;
