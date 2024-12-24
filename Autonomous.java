@@ -14,6 +14,7 @@ public class Autonomous extends LinearOpMode {
     private DcMotor backRight;
     //private DcMotor arm;
     private DcMotor vShaft;
+    private DCMotor vShaft2;
     private DcMotor hShaft;
     public CRServo claw;
     public CRServo rotary;
@@ -27,6 +28,7 @@ public class Autonomous extends LinearOpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         //arm = hardwareMap.get(DcMotor.class, "arm");
         vShaft = hardwareMap.get(DcMotor.class, "vShaft");
+        vShaft2 = hardwareMap.get(DcMotor.class, "vShaft2");
         hShaft = hardwareMap.get(DcMotor.class, "hShaft");
         claw = hardwareMap.get(CRServo.class, "claw");
         rotary = hardwareMap.get(CRServo.class, "Rotary");
@@ -168,6 +170,12 @@ public class Autonomous extends LinearOpMode {
         vShaft.setPower(power);
         sleep(time);
         vShaft.setPower(0);
+    }
+
+    public void vSlide2 (double power, int time){
+        vShaft2.setPower(power);
+        sleep(time);
+        vShaft2.setPower(0);
     }
     public void hSlide (double power, int time){
         hShaft.setPower(power);
