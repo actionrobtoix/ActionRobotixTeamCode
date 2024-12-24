@@ -182,36 +182,40 @@ public class Autonomous extends LinearOpMode {
         sleep(time);
         hShaft.setPower(0);
     }
-    public void strafeLeft (float power, int time){
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+    public void strafeLeft(float power, int time) {
         frontLeft.setPower(power);
-        frontRight.setPower(power);
-        backLeft.setPower(power);
+        frontRight.setPower(-power);
+        backLeft.setPower(-power);
         backRight.setPower(power);
+
         sleep(time);
+        
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void strafeRight (float power, int time){
+
+    public void strafeRight(float power, int time) {
+        
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontLeft.setPower(power);
+
+        frontLeft.setPower(-power);
         frontRight.setPower(power);
         backLeft.setPower(power);
-        backRight.setPower(power);
+        backRight.setPower(-power);
+
         sleep(time);
+
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
     }
+
     public void rightForward (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.FORWARD);
