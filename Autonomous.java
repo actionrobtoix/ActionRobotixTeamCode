@@ -17,6 +17,7 @@ public class Autonomous extends LinearOpMode {
     private DcMotor hShaft;
     public CRServo claw;
     public CRServo rotary;
+    public CRServo basket;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,7 +29,8 @@ public class Autonomous extends LinearOpMode {
         vShaft = hardwareMap.get(DcMotor.class, "vShaft");
         hShaft = hardwareMap.get(DcMotor.class, "hShaft");
         claw = hardwareMap.get(CRServo.class, "claw");
-        rotary = hardwareMap.get(CRServo.class, "rotary");
+        rotary = hardwareMap.get(CRServo.class, "Rotary");
+        basket = hardwareMap.get(CRServo.class, "basket");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -80,6 +82,8 @@ public class Autonomous extends LinearOpMode {
         moveClaw(-0.3, 175);
         sleep(250);
         moveRotary(0.3,175);
+        sleep(250);
+        moveBasket(-0.3, 150);
         sleep(250);
 
 
@@ -160,17 +164,17 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void vSlide(double power, int time){
+    public void vSlide (double power, int time){
         vShaft.setPower(power);
         sleep(time);
         vShaft.setPower(0);
     }
-    public void hSlide(double power, int time){
+    public void hSlide (double power, int time){
         hShaft.setPower(power);
         sleep(time);
         hShaft.setPower(0);
     }
-    public void strafeLeft(float power, int time){
+    public void strafeLeft (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -185,7 +189,7 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void strafeRight(float power, int time){
+    public void strafeRight (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -200,7 +204,7 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void rightForward(float power, int time){
+    public void rightForward (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeft.setPower(power);
@@ -211,7 +215,7 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void rightBackward(float power, int time){
+    public void rightBackward (float power, int time){
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRight.setPower(power);
@@ -222,7 +226,7 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void leftBackward(float power, int time){
+    public void leftBackward (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setPower(power);
@@ -233,7 +237,7 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void leftForward(float power, int time){
+    public void leftForward (float power, int time){
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeft.setPower(power);
@@ -246,15 +250,20 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void moveClaw(double power, int time){
+    public void moveClaw (double power, int time){
         claw.setPower(power);
         sleep(time);
         claw.setPower(0);
     }
-    public void moveRotary(double power, int time){
+    public void moveRotary (double power, int time){
         rotary.setPower(power);
         sleep(time);
         rotary.setPower(0);
+    }
+    public void moveBasket (double power, int time){
+        basket.setPower(power);
+        sleep(time);
+        basket.setPower(0);
     }
 }
 /*package org.firstinspires.ftc.teamcode;
