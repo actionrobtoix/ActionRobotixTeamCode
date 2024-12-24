@@ -11,7 +11,9 @@ public class Autonomous extends LinearOpMode {
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
-    private DcMotor arm;
+    //private DcMotor arm;
+    private DcMotor vShaft;
+    private DcMotor hShaft;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -19,7 +21,9 @@ public class Autonomous extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        arm = hardwareMap.get(DcMotor.class, "arm");
+        //arm = hardwareMap.get(DcMotor.class, "arm");
+        vShaft = hardwareMap.get(DcMotor.class, "vShaft");
+        hShaft = hardwareMap.get(DcMotor.class, "hShaft");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -52,7 +56,21 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         moveBackward((float) 0.3, 1250);
         sleep(250);
-        raiseArm((float) 0.3, 1400);
+        vSlide((float) 0.3, 1400);
+        sleep(250);
+        hSlide((float) 0.3, 1400);
+        sleep(250);
+        strafeLeft((float) 0.3, 800);
+        sleep(250);
+        strafeRight((float)0.3, 800);
+        sleep(250);
+        rightForward((float) 0.3, 500);
+        sleep(250);
+        rightBackward((float) 0.3, 500);
+        sleep(250);
+        leftBackward((float) 0.3, 500);
+        sleep(250);
+        leftForward((float) 0.3, 500);
         sleep(250);
         /*moveBackward((float) 0.3, 900);
         sleep(250);
@@ -131,10 +149,91 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void raiseArm (float power, int time){
-        arm.setPower(power);
+    public void vSlide(float power, int time){
+        vShaft.setPower(power);
         sleep(time);
-        arm.setPower(0);
+        vShaft.setPower(0);
+    }
+    public void hSlide(float power, int time){
+        hShaft.setPower(power);
+        sleep(time);
+        hShaft.setPower(0);
+    }
+    public void strafeLeft(float power, int time){
+        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(power);
+        sleep(time);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
+    public void strafeRight(float power, int time){
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(power);
+        sleep(time);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
+    public void rightForward(float power, int time){
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setPower(power);
+        backRight.setPower(power);
+        sleep(time);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
+    public void rightBackward(float power, int time){
+        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        sleep(time);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
+    public void leftBackward(float power, int time){
+        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setPower(power);
+        backRight.setPower(power);
+        sleep(time);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
+    public void leftForward(float power, int time){
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(power);
+        sleep(time);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
 /*package org.firstinspires.ftc.teamcode;
