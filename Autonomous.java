@@ -16,7 +16,7 @@ public class Autonomous extends LinearOpMode {
     private DcMotor vShaft;
     private DCMotor vShaft2;
     private DcMotor hShaft;
-    public CRServo claw;
+    public Servo claw;
     public CRServo rotary;
     public CRServo basket;
 
@@ -30,7 +30,7 @@ public class Autonomous extends LinearOpMode {
         vShaft = hardwareMap.get(DcMotor.class, "vShaft");
         vShaft2 = hardwareMap.get(DcMotor.class, "vShaft2");
         hShaft = hardwareMap.get(DcMotor.class, "hShaft");
-        claw = hardwareMap.get(CRServo.class, "claw");
+        claw = hardwareMap.get(Servo.class, "claw");
         rotary = hardwareMap.get(CRServo.class, "Rotary");
         basket = hardwareMap.get(CRServo.class, "basket");
 
@@ -189,7 +189,7 @@ public class Autonomous extends LinearOpMode {
         backRight.setPower(power);
 
         sleep(time);
-        
+
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
@@ -197,7 +197,7 @@ public class Autonomous extends LinearOpMode {
     }
 
     public void strafeRight(float power, int time) {
-        
+
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -262,10 +262,10 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void moveClaw (double power, int time){
-        claw.setPower(power);
+    public void moveClaw (double position, int time){
+        claw.setPosition(position);
         sleep(time);
-        claw.setPower(0);
+        claw.setPosition(0);
     }
     public void moveRotary (double power, int time){
         rotary.setPower(power);
