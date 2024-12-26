@@ -19,6 +19,8 @@ public class Autonomous extends LinearOpMode {
     public CRServo claw;
     public CRServo rotary;
     public CRServo basket;
+    public CRServo flip1;
+    public CRServo flip2;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -33,6 +35,8 @@ public class Autonomous extends LinearOpMode {
         claw = hardwareMap.get(CRServo.class, "claw");
         rotary = hardwareMap.get(CRServo.class, "Rotary");
         basket = hardwareMap.get(CRServo.class, "basket");
+        flip1 = hardwareMap.get(CRServo.class, "flip1");
+        flip2 = hardwareMap.get(CRServo.class, "flip2");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -87,9 +91,11 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         moveClaw(-0.3, 175);
         sleep(250);
-        moveRotary(0.3,175);
+        moveRotary(0.3, 175);
         sleep(250);
         moveBasket(-0.3, 150);
+        sleep(250);
+        flipClaw(0.3, 275);
         sleep(250);
 
 
@@ -286,5 +292,12 @@ public class Autonomous extends LinearOpMode {
         basket.setPower(power);
         sleep(time);
         basket.setPower(0);
+    }
+    public void flipClaw (double power, int time){
+        flip1.setPower(power);
+        flip2.setPower(power);
+        sleep(time);
+        flip1.setPower(0);
+        flip2.setPower(0);
     }
 }
