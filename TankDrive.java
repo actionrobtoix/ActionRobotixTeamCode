@@ -17,7 +17,7 @@ public class TankDrive extends OpMode {
     private DcMotor vShaft2;
 
 
-    public Servo claw;
+    public CRServo claw;
     public CRServo rotary;
     public Servo basket;
 
