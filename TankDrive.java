@@ -30,15 +30,20 @@ public class TankDrive extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        hShaft = hardwareMap.get(DcMotor.class, "hShaft");
-        vShaft = hardwareMap.get(DcMotor.class, "vShaft");
-        vShaft2 = hardwareMap.get(DcMotor.class, "vShaft2");
+        hShaft = hardwareMap.get(DcMotor.class, "horizontalSlide");
+        vShaft = hardwareMap.get(DcMotor.class, "verticalSlide1");
+        vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
 
 
 
-        claw = hardwareMap.get(Servo.class, "claw");
+        claw = hardwareMap.get(CRServo.class, "claw");
         rotary = hardwareMap.get(CRServo.class, "Rotary");
-        basket = hardwareMap.get(Servo.class, "basket");
+        // basket = hardwareMap.get(Servo.class, "basket");
+        flip1 = hardwareMap.get(CRServo.class, "flip1");
+    
+        flip2 = hardwareMap.get(CRServo.class, "flip2");
+
+
 
 
 
@@ -51,18 +56,38 @@ public class TankDrive extends OpMode {
     public void loop() {
 // claw control
         if(gamepad1.a){
-            claw.setPosition(0);
+            claw.setPower(-1);
         }
         if(gamepad1.b) {
-            claw.setPosition(1);
+            claw.setPower(1);
+        }
+        else {
+              claw.setPower(0);
+            
         }
 
-        if(gamepad1.x){
-            basket.setPosition(1);
+         if(gamepad2.a){
+           flip1.setPower(-1);
+           flip2.setPower(-1);
+
+        
         }
-        if(gamepad1.y) {
-            basket.setPosition(0.5);
+        if(gamepad2.b) {
+            flip1.setPower(1);
+           flip2.setPower(1);
         }
+        else {
+            flip1.setPower(0);
+           flip2.setPower(0);
+            
+        }
+
+        // if(gamepad1.x){
+           // basket.setPosition(1);
+      //  }
+        //if(gamepad1.y) {
+         //   basket.setPosition(0.5);
+       // }
 // rotary control
         if(gamepad2.left_bumper){
             rotary.setPower(-1);
@@ -109,10 +134,7 @@ public class TankDrive extends OpMode {
 
 
         // Set power for the drive motors
-        frontLeft.setPower(leftPower);
-        frontRight.setPower(rightPower);
-        backLeft.setPower(leftPower);
-        backRight.setPower(rightPower);
+
 
         // set actual value for slides
         hShaft.setPower(hShaftPower);
@@ -133,15 +155,13 @@ public class TankDrive extends OpMode {
             backRight.setPower(-strafePower);
             frontLeft.setPower(-strafePower);
             frontRight.setPower(strafePower);
-        } else {
-            // Tank drive control
+        }
+            
             frontLeft.setPower(leftPower);
             frontRight.setPower(rightPower);
             backLeft.setPower(leftPower);
             backRight.setPower(rightPower);
-        }
-
-
+       
     }
 
 
