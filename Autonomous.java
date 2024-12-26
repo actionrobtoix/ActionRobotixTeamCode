@@ -14,9 +14,9 @@ public class Autonomous extends LinearOpMode {
     private DcMotor backRight;
     //private DcMotor arm;
     private DcMotor vShaft;
-    private DCMotor vShaft2;
+    private DcMotor vShaft2;
     private DcMotor hShaft;
-    public Servo claw;
+    public CRServo claw;
     public CRServo rotary;
     public CRServo basket;
 
@@ -27,10 +27,10 @@ public class Autonomous extends LinearOpMode {
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         //arm = hardwareMap.get(DcMotor.class, "arm");
-        vShaft = hardwareMap.get(DcMotor.class, "vShaft");
-        vShaft2 = hardwareMap.get(DcMotor.class, "vShaft2");
+        vShaft = hardwareMap.get(DcMotor.class, "verticalSlide1");
+        vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
         hShaft = hardwareMap.get(DcMotor.class, "hShaft");
-        claw = hardwareMap.get(Servo.class, "claw");
+        claw = hardwareMap.get(CRServo.class, "claw");
         rotary = hardwareMap.get(CRServo.class, "Rotary");
         basket = hardwareMap.get(CRServo.class, "basket");
 
@@ -66,6 +66,10 @@ public class Autonomous extends LinearOpMode {
         moveBackward((float) 0.3, 1250);
         sleep(250);
         vSlide(0.3, 1400);
+        sleep(250);
+        vSlide2(0.3, 1400);
+        sleep(250);
+        doubleSlide(-0.3, 1200);
         sleep(250);
         hSlide(0.3, 1400);
         sleep(250);
@@ -171,11 +175,17 @@ public class Autonomous extends LinearOpMode {
         sleep(time);
         vShaft.setPower(0);
     }
-
     public void vSlide2 (double power, int time){
         vShaft2.setPower(power);
         sleep(time);
         vShaft2.setPower(0);
+    }
+    public void doubleSlide (double power, int time){
+        vShaft.setPower(power);
+        vShaft2.setPower(power);
+        sleep(time);
+        vShaft.setPower(0);
+        vShaft.setPower(0);
     }
     public void hSlide (double power, int time){
         hShaft.setPower(power);
@@ -262,10 +272,10 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void moveClaw (double position, int time){
-        claw.setPosition(position);
+    public void moveClaw (double power, int time){
+        claw.setPower(power);
         sleep(time);
-        claw.setPosition(0);
+        claw.setPower(0);
     }
     public void moveRotary (double power, int time){
         rotary.setPower(power);
@@ -278,127 +288,3 @@ public class Autonomous extends LinearOpMode {
         basket.setPower(0);
     }
 }
-/*package org.firstinspires.ftc.teamcode;
-//ONE TILE DISTANCE IS 350 MILLISECONDS AT 1 POWER
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Autonomous")
-public class Autonomous extends LinearOpMode {
-
-    private DcMotor frontLeft;
-    private DcMotor frontRight;
-    private DcMotor backLeft;
-    private DcMotor backRight;
-
-    @Override
-    public void runOpMode() throws InterruptedException {
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
-
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        waitForStart();
-
-        moveForward((float) 0.3, 2950);
-        sleep(250);
-        turnLeft((float) 0.3,1375);
-        sleep(250);
-        moveForward((float) 0.3, 200);
-        sleep(250);
-        turnLeft((float) 0.3,1320);
-        sleep(250);
-        moveForward((float) 0.3, 2550);
-        sleep(250);
-        moveBackward((float) 0.3, 2500);
-        sleep(250);
-        turnRight((float) 0.3, 550);
-        sleep(250);
-        moveForward((float) 0.3, 550);
-        sleep(250);
-        turnLeft((float) 0.3, 500);
-        sleep(250);
-        moveForward((float) 0.3, 2250);
-        sleep(250);
-        moveBackward((float) 0.3, 900);
-        sleep(250);
-        turnLeft((float) 0.3, 350);
-        sleep(250);
-        moveForward((float) 0.3, 600);
-        sleep(250);
-        turnLeft((float) 0.3, 1175);
-        sleep(250);
-        moveForward((float) 0.5, 3200);
-        sleep(250);
-        turnRight((float) 1.0, 200);
-        sleep(250);
-        moveForward((float) 0.3, 300);
-        sleep(250);
-    }
-    public void moveForward (float power, int time){
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontLeft.setPower(power);
-        frontRight.setPower(power);
-        backLeft.setPower(power);
-        backRight.setPower(power);
-        sleep(time);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        //ONE TILE DISTANCE IS 350 MILLISECONDS AT 1 POWER
-    }
-    public void moveBackward (float power, int time){
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeft.setPower(power);
-        frontRight.setPower(power);
-        backLeft.setPower(power);
-        backRight.setPower(power);
-        sleep(time);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
-        //ONE TILE DISTANCE IS 350 MILLISECONDS AT 1 POWER
-    }
-    public void turnRight (float power, int time){
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeft.setPower(power);
-        frontRight.setPower(power);
-        backLeft.setPower(power);
-        backRight.setPower(power);
-        sleep(time);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
-    }
-    public void turnLeft (float power, int time){
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontLeft.setPower(power);
-        frontRight.setPower(power);
-        backLeft.setPower(power);
-        backRight.setPower(power);
-        sleep(time);
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
-    }
-}*/
