@@ -141,21 +141,7 @@ public class TankDrive extends OpMode {
          vShaft.setPower(vShaftPower);
         vShaft2.setPower(vShaftPower2);
 
-        double strafePower = 0.5; // Adjust as needed
-
-        if (gamepad1.left_bumper) {
-            // Strafe left
-            backLeft.setPower(-strafePower);
-            backRight.setPower(strafePower);
-            frontLeft.setPower(strafePower);
-            frontRight.setPower(-strafePower);
-        } else if (gamepad1.right_bumper) {
-            // Strafe right
-            backLeft.setPower(strafePower);
-            backRight.setPower(-strafePower);
-            frontLeft.setPower(-strafePower);
-            frontRight.setPower(strafePower);
-        }
+        
             
             frontLeft.setPower(leftPower);
             frontRight.setPower(rightPower);
