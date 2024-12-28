@@ -44,58 +44,15 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
 
-        moveForward((float) 0.3, 2950);
+        hSlide(0.3, 800);
         sleep(250);
-        turnLeft((float) 0.3,1000);
+        hSlide(-0.3, 800);
         sleep(250);
-        moveForward((float) 0.3, 250);
+        strafeLeft((float)0.3, 1000);
         sleep(250);
-        turnRight((float) 0.3,1200);
+        strafeRight((float)0.3, 1000);
         sleep(250);
-        moveBackward((float) 0.3, 3100);
-        sleep(250);
-        moveForward((float) 0.3, 2825);
-        sleep(250);
-        turnLeft((float) 0.3, 1200);
-        sleep(250);
-        moveForward((float) 0.3, 700);
-        sleep(250);
-        turnRight((float) 0.3, 1000);
-        sleep(250);
-        moveBackward((float) 0.3, 2950);
-        sleep(250);
-        moveForward((float) 0.3, 3150);
-        sleep(250);
-        turnLeft((float) 0.3, 1350);
-        sleep(250);
-        moveBackward((float) 0.3, 1250);
-        sleep(250);
-        vSlide(0.3, 1400);
-        sleep(250);
-        //vSlide2(0.3, 1400);
-        sleep(250);
-        //doubleSlide(-0.3, 1200);
-        sleep(250);
-        hSlide(0.3, 1400);
-        sleep(250);
-        strafeLeft((float) 0.3, 800);
-        sleep(250);
-        strafeRight((float)0.3, 800);
-        sleep(250);
-        rightForward((float) 0.3, 500);
-        sleep(250);
-        rightBackward((float) 0.3, 500);
-        sleep(250);
-        leftBackward((float) 0.3, 500);
-        sleep(250);
-        leftForward((float) 0.3, 500);
-        sleep(250);
-        moveClaw(-0.3, 175);
-        sleep(250);
-        moveRotary(0.3, 175);
-        sleep(250);
-        flipClaw(0.3, 275);
-        sleep(250);
+
     }
     public void moveForward (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
