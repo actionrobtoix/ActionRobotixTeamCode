@@ -82,8 +82,8 @@ public class TankDrive extends OpMode {
 
         // Tank drive control
 
-        double leftPower = -gamepad1.left_stick_y;
         double rightPower = -gamepad1.right_stick_y;
+        double leftPower = -gamepad1.left_stick_y;
 
         // claw control
 
@@ -94,8 +94,8 @@ public class TankDrive extends OpMode {
 
 
         // Apply cubic scaling
-        leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
+        leftPower = leftPower * leftPower * leftPower;
         hShaftPower = hShaftPower * hShaftPower * hShaftPower;
         vShaftPower = vShaftPower * vShaftPower * vShaftPower;
         vShaftPower2 = vShaftPower2 * vShaftPower2 * vShaftPower2;
@@ -111,10 +111,10 @@ public class TankDrive extends OpMode {
 
 
 
-        frontLeft.setPower(leftPower);
         frontRight.setPower(rightPower);
-        backLeft.setPower(leftPower);
+        frontLeft.setPower(leftPower);
         backRight.setPower(rightPower);
+        backLeft.setPower(leftPower);
 
 
     }
