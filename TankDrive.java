@@ -14,14 +14,14 @@ public class TankDrive extends OpMode {
     private DcMotor backRight;
     private DcMotor hShaft;
     private DcMotor vShaft;
-    private DcMotor vShaft2;
+    //private DcMotor vShaft2;
 
 
-    public CRServo claw;
-    public CRServo rotary;
-    public Servo basket;
-
-
+    public Servo claw;
+    public Servo rotary;
+    //public CRServo basket;
+    public CRServo flip1;
+    //public Servo flip2;
 
 
     @Override
@@ -32,20 +32,13 @@ public class TankDrive extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         hShaft = hardwareMap.get(DcMotor.class, "horizontalSlide");
         vShaft = hardwareMap.get(DcMotor.class, "verticalSlide1");
-        vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
+        //vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
 
-
-
-        claw = hardwareMap.get(CRServo.class, "claw");
-        rotary = hardwareMap.get(CRServo.class, "Rotary");
-        // basket = hardwareMap.get(Servo.class, "basket");
+        claw = hardwareMap.get(Servo.class, "claw");
+        rotary = hardwareMap.get(Servo.class, "Rotary");
+        // basket = hardwareMap.get(CRServo.class, "basket");
         flip1 = hardwareMap.get(CRServo.class, "flip1");
-    
-        flip2 = hardwareMap.get(CRServo.class, "flip2");
-
-
-
-
+        //flip2 = hardwareMap.get(Servo.class, "flip2");
 
         // Reverse the left motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -55,56 +48,36 @@ public class TankDrive extends OpMode {
     @Override
     public void loop() {
 // claw control
-        if(gamepad1.a){
-            claw.setPower(-1);
+
+        if (gamepad1.a) {
+            claw.setPosition(1);
         }
-        if(gamepad1.b) {
-            claw.setPower(1);
-        }
-        else {
-              claw.setPower(0);
-            
+        if (gamepad1.b) {
+            claw.setPosition(0.4);
         }
 
-         if(gamepad2.a){
-           flip1.setPower(-1);
-           flip2.setPower(-1);
-
-        
+        if (gamepad2.a) {
+            flip1.setPower(-1);
         }
-        if(gamepad2.b) {
+        if (gamepad2.b) {
             flip1.setPower(1);
-           flip2.setPower(1);
         }
-        else {
-            flip1.setPower(0);
-           flip2.setPower(0);
-            
-        }
+
+
 
         // if(gamepad1.x){
-           // basket.setPosition(1);
-      //  }
+        // basket.setPosition(1);
+        //  }
         //if(gamepad1.y) {
-         //   basket.setPosition(0.5);
-       // }
+        //   basket.setPosition(0.5);
+        // }
 // rotary control
-        if(gamepad2.left_bumper){
-            rotary.setPower(-1);
+        if (gamepad1.left_bumper) {
+            rotary.setPosition(0);
         }
-        if(gamepad1.right_bumper){
-            rotary.setPower(1);
+        if (gamepad1.right_bumper) {
+            rotary.setPosition(1);
         }
-        else {
-            rotary.setPower(0);
-        }
-
-
-
-
-
-        
-
 
 
         // Tank drive control
@@ -120,17 +93,12 @@ public class TankDrive extends OpMode {
         float vShaftPower2 = -gamepad2.right_stick_y;
 
 
-
-
         // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
-        hShaftPower = hShaftPower * hShaftPower *hShaftPower;
-        vShaftPower  = vShaftPower  * vShaftPower  *  vShaftPower;
-        vShaftPower2  = vShaftPower2  * vShaftPower2  * vShaftPower2;
-
-
-
+        hShaftPower = hShaftPower * hShaftPower * hShaftPower;
+        vShaftPower = vShaftPower * vShaftPower * vShaftPower;
+        vShaftPower2 = vShaftPower2 * vShaftPower2 * vShaftPower2;
 
 
         // Set power for the drive motors
@@ -138,17 +106,16 @@ public class TankDrive extends OpMode {
 
         // set actual value for slides
         hShaft.setPower(hShaftPower);
-         vShaft.setPower(vShaftPower);
-        vShaft2.setPower(vShaftPower2);
+        vShaft.setPower(vShaftPower);
+        //vShaft2.setPower(vShaftPower2);
 
-        
-            
-            frontLeft.setPower(leftPower);
-            frontRight.setPower(rightPower);
-            backLeft.setPower(leftPower);
-            backRight.setPower(rightPower);
-       
+
+
+        frontLeft.setPower(leftPower);
+        frontRight.setPower(rightPower);
+        backLeft.setPower(leftPower);
+        backRight.setPower(rightPower);
+
+
     }
-
-
 }
