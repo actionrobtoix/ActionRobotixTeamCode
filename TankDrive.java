@@ -14,13 +14,13 @@ public class TankDrive extends OpMode {
     private DcMotor backRight;
     private DcMotor hShaft;
     private DcMotor vShaft;
-    //private DcMotor vShaft2;
+    private DcMotor vShaft2;
 
 
 
     public Servo claw;
     public Servo rotary;
-    //public CRServo basket;
+    public Servo basket;
     public Servo flip1;
 
 
@@ -32,10 +32,10 @@ public class TankDrive extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         hShaft = hardwareMap.get(DcMotor.class, "horizontalSlide");
         vShaft = hardwareMap.get(DcMotor.class, "verticalSlide1");
-        //vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
+        vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
 
         claw = hardwareMap.get(Servo.class, "claw");
-        // basket = hardwareMap.get(CRServo.class, "basket");
+        basket = hardwareMap.get(Servo.class, "basket");
         flip1 = hardwareMap.get(Servo.class, "flip1");
 
         // Reverse the left motors
@@ -93,7 +93,6 @@ public class TankDrive extends OpMode {
         // Arm control
         float hShaftPower = -gamepad2.left_stick_y;
         float vShaftPower = gamepad2.right_stick_y;
-        float vShaftPower2 = gamepad2.right_stick_y;
 
 
         // Apply cubic scaling
@@ -101,7 +100,6 @@ public class TankDrive extends OpMode {
         leftPower = leftPower * leftPower * leftPower;
         hShaftPower = hShaftPower * hShaftPower * hShaftPower;
         vShaftPower = vShaftPower * vShaftPower * vShaftPower;
-       // vShaftPower2 = vShaftPower2 * vShaftPower2 * vShaftPower2;
 
 
         // Set power for the drive motors
@@ -110,7 +108,7 @@ public class TankDrive extends OpMode {
         // set actual value for slides
         hShaft.setPower(hShaftPower);
         vShaft.setPower(vShaftPower);
-      // vShaft2.setPower(vShaftPower2);
+        vShaft2.setPower(vShaftPower);
 
 
 
