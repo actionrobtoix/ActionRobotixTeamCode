@@ -44,16 +44,9 @@ public class Autonomous extends LinearOpMode {
 
         moveForward((float)0.3, 800);
         sleep(250);
-        moveBackward((float)0.3, 800);
+        doubleSlide(0.3, 1000);
         sleep(250);
-        strafeLeft((float)0.3, 800);
-        sleep(250);
-        strafeRight((float)0.3, 800);
-        sleep(250);
-        flipClaw(0.3, 200);
-        sleep(250);
-        flipClaw(-0.3, 200);
-        sleep(250);
+        moveClaw2(0);
         /*hSlide(0.3, 800);
         sleep(250);
         hSlide(-0.3, 800);
@@ -224,19 +217,16 @@ public class Autonomous extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
-    public void moveClaw (double position, int time){
+    public void moveClaw (double position){
         claw.setPosition(position);
-        sleep(time);
-        claw.setPosition(0);
     }
-    public void moveBasket (double position, int time){
+    public void moveBasket (double position){
         basket.setPosition(position);
-        sleep(time);
-        basket.setPosition(0);
     }
-    public void flipClaw (double position, int time) {
+    public void flipClaw (double position){
         flip1.setPosition(position);
-        sleep(time);
-        flip1.setPosition(0);
+    }
+    public void moveClaw2 (double position){
+        claw2.setPosition(position);
     }
 }
