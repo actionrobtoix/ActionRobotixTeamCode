@@ -20,7 +20,7 @@ public class Autonomous extends LinearOpMode {
     public Servo claw;
     public Servo rotary;
     //public CRServo basket;
-    public CRServo flip1;
+    public Servo flip1;
     //public Servo flip2;
 
     @Override
@@ -36,26 +36,34 @@ public class Autonomous extends LinearOpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         rotary = hardwareMap.get(Servo.class, "Rotary");
         //basket = hardwareMap.get(CRServo.class, "basket");
-        flip1 = hardwareMap.get(CRServo.class, "flip1");
+        flip1 = hardwareMap.get(Servo.class, "flip1");
         //flip2 = hardwareMap.get(Servo.class, "flip2");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
+        moveForward((float)0.3, 800);
+        sleep(250);
+        moveBackward((float)0.3, 800);
+        sleep(250);
+        strafeLeft((float)0.3, 800);
+        sleep(250);
+        strafeRight((float)0.3, 800);
+        sleep(250);
         flipClaw(0.3, 200);
         sleep(250);
         flipClaw(-0.3, 200);
         sleep(250);
-        hSlide(0.3, 800);
+        /*hSlide(0.3, 800);
         sleep(250);
         hSlide(-0.3, 800);
         sleep(250);
         strafeLeft((float)0.3, 1000);
         sleep(250);
         strafeRight((float)0.3, 1000);
-        sleep(250);
+        sleep(250);*/
 
     }
     public void moveForward (float power, int time){
@@ -233,11 +241,12 @@ public class Autonomous extends LinearOpMode {
         //sleep(time);
         //basket.setPower(0);
     //}
-    public void flipClaw (double power, int time){
-        flip1.setPower(power);
+    public void flipClaw (double position, int time) {
+        flip1.setPosition(position);
         //flip2.setPosition(position);
         sleep(time);
-        flip1.setPower(0);
+        flip1.setPosition(0);
         //flip2.setPosition(0);
     }
+
 }
