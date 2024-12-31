@@ -22,6 +22,7 @@ public class TankDrive extends OpMode {
     public Servo rotary;
     public Servo basket;
     public Servo flip1;
+    public Servo claw2;
 
 
     @Override
@@ -37,6 +38,7 @@ public class TankDrive extends OpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         basket = hardwareMap.get(Servo.class, "basket");
         flip1 = hardwareMap.get(Servo.class, "flip1");
+        claw2 = hardwareMap.get(Servo.class, "claw2");
 
         // Reverse the left motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
