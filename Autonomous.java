@@ -15,13 +15,12 @@ public class Autonomous extends LinearOpMode {
     private DcMotor backRight;
     //private DcMotor arm;
     private DcMotor vShaft;
-    //private DcMotor vShaft2;
+    private DcMotor vShaft2;
     private DcMotor hShaft;
     public Servo claw;
-    public Servo rotary;
-    //public CRServo basket;
+    public Servo basket;
     public Servo flip1;
-    //public Servo flip2;
+    public Servo claw2;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,13 +30,12 @@ public class Autonomous extends LinearOpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         //arm = hardwareMap.get(DcMotor.class, "arm");
         vShaft = hardwareMap.get(DcMotor.class, "verticalSlide1");
-        //vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
+        vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
         hShaft = hardwareMap.get(DcMotor.class, "horizontalSlide");
         claw = hardwareMap.get(Servo.class, "claw");
-        rotary = hardwareMap.get(Servo.class, "Rotary");
-        //basket = hardwareMap.get(CRServo.class, "basket");
+        basket = hardwareMap.get(Servo.class, "basket");
         flip1 = hardwareMap.get(Servo.class, "flip1");
-        //flip2 = hardwareMap.get(Servo.class, "flip2");
+        claw2 = hardwareMap.get(Servo.class, "claw2");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -133,7 +131,7 @@ public class Autonomous extends LinearOpMode {
         sleep(time);
         vShaft.setPower(0);
     }
-    /*public void vSlide2 (double power, int time){
+    public void vSlide2 (double power, int time){
         vShaft2.setPower(power);
         sleep(time);
         vShaft2.setPower(0);
@@ -144,7 +142,7 @@ public class Autonomous extends LinearOpMode {
         sleep(time);
         vShaft.setPower(0);
         vShaft.setPower(0);
-    }*/
+    }
     public void hSlide (double power, int time){
         hShaft.setPower(power);
         sleep(time);
@@ -231,22 +229,14 @@ public class Autonomous extends LinearOpMode {
         sleep(time);
         claw.setPosition(0);
     }
-    public void moveRotary (double position, int time){
-        rotary.setPosition(position);
+    public void moveBasket (double position, int time){
+        basket.setPosition(position);
         sleep(time);
-        rotary.setPosition(0);
+        basket.setPosition(0);
     }
-    //public void moveBasket (double power, int time){
-        //basket.setPower(power);
-        //sleep(time);
-        //basket.setPower(0);
-    //}
     public void flipClaw (double position, int time) {
         flip1.setPosition(position);
-        //flip2.setPosition(position);
         sleep(time);
         flip1.setPosition(0);
-        //flip2.setPosition(0);
     }
-
 }
