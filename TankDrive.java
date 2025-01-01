@@ -1,29 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
+//import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
 @TeleOp
 public class TankDrive extends OpMode {
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
-    private DcMotor hShaft;
-    private DcMotor vShaft;
-    private DcMotor vShaft2;
-
-
-
+    private DcMotor arm;
     public Servo claw;
-    public Servo rotary;
-    public Servo basket;
     public Servo flip1;
-    public Servo claw2;
-
 
     @Override
     public void init() {
@@ -31,20 +21,13 @@ public class TankDrive extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        hShaft = hardwareMap.get(DcMotor.class, "horizontalSlide");
-        vShaft = hardwareMap.get(DcMotor.class, "verticalSlide1");
-        vShaft2 = hardwareMap.get(DcMotor.class, "verticalSlide2");
-
-        claw = hardwareMap.get(Servo.class, "claw");
-        basket = hardwareMap.get(Servo.class, "basket");
+        arm = hardwareMap.get(DcMotor.class, "arm");
         flip1 = hardwareMap.get(Servo.class, "flip1");
-        claw2 = hardwareMap.get(Servo.class, "claw2");
-
+        claw = hardwareMap.get(Servo.class, "claw");
         // Reverse the left motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-
     @Override
     public void loop() {
 // claw control
@@ -54,7 +37,7 @@ public class TankDrive extends OpMode {
         }
         if (gamepad1.b) {
             claw.setPosition(0.4);
-       }
+        }
         if (gamepad2.a) {
             //flip2.setPosition(1);
             flip1.setPosition(0);
@@ -70,55 +53,44 @@ public class TankDrive extends OpMode {
             flip1.setPosition(0.4);
         }
 
+        double forward = 1;
+        double back = 1;
+        if(gamepad1.left_bumper) {
+            backLeft.setPower(forward);
+            backRight.setPower(back);
+            frontLeft.setPower(back);
+            frontRight.setPower(forward);
+        }
+        else if(gamepad1.right_bumper)
+        {
+
+            backLeft.setPower(back);
+            backRight.setPower(forward);
+            frontLeft.setPower(forward);
+            frontRight.setPower(back);
 
 
-       // telemetry.addData(flip1.getPower));
-
-
-
-        // if(gamepad1.x){
-        // basket.setPosition(1);
-        //  }
-        //if(gamepad1.y) {
-        //   basket.setPosition(0.5);
-        // }
-// rotary control
-
-
+        }
         // Tank drive control
 
-        double rightPower = -gamepad1.right_stick_y;
         double leftPower = -gamepad1.left_stick_y;
-
+        double rightPower = -gamepad1.right_stick_y;
         // claw control
 
         // Arm control
-        float hShaftPower = -gamepad2.left_stick_y;
-        float vShaftPower = gamepad2.right_stick_y;
-
+        float armPower = -gamepad2.right_stick_y;
 
         // Apply cubic scaling
-        rightPower = rightPower * rightPower * rightPower;
         leftPower = leftPower * leftPower * leftPower;
-        hShaftPower = hShaftPower * hShaftPower * hShaftPower;
-        vShaftPower = vShaftPower * vShaftPower * vShaftPower;
-
+        rightPower = rightPower * rightPower * rightPower;
+        armPower = armPower * armPower * armPower;
 
         // Set power for the drive motors
-
-
-        // set actual value for slides
-        hShaft.setPower(hShaftPower);
-        vShaft.setPower(vShaftPower);
-        vShaft2.setPower(vShaftPower);
-
-
-
-        frontRight.setPower(rightPower);
         frontLeft.setPower(leftPower);
-        backRight.setPower(rightPower);
+        frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
-
-
+        backRight.setPower(rightPower);
+        // set actual value for arm and claw
+        arm.setPower(armPower);
     }
 }
