@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+
 @TeleOp
 public class TankDrive extends OpMode {
     private DcMotor frontLeft;
@@ -40,18 +41,18 @@ public class TankDrive extends OpMode {
         }
         if (gamepad2.a) {
             //flip2.setPosition(1);
-            flip1.setPosition(0);
+            flip1.setPosition(0.7);
         }
         if (gamepad2.b) {
             // flip2.setPosition(0);
-            flip1.setPosition(0.7);
+            flip1.setPosition(0);
         }
-        if(gamepad2.y) {
+        /*if(gamepad2.y) {
             flip1.setPosition(0.2);
         }
         if (gamepad2.x) {
             flip1.setPosition(0.4);
-        }
+        }*/
 
         double forward = 1;
         double back = 1;
@@ -78,12 +79,11 @@ public class TankDrive extends OpMode {
         // claw control
 
         // Arm control
-        float armPower = -gamepad2.right_stick_y;
+        double armPower = (-gamepad2.right_stick_y)/2;
 
         // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
-        armPower = armPower * armPower * armPower;
 
         // Set power for the drive motors
         frontLeft.setPower(leftPower);
