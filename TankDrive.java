@@ -1,7 +1,8 @@
+
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-//import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,7 +15,7 @@ public class TankDrive extends OpMode {
     private DcMotor backRight;
     private DcMotor arm;
     public Servo claw;
-    public Servo flip1;
+    public CRServo flip1;
 
     @Override
     public void init() {
@@ -23,7 +24,7 @@ public class TankDrive extends OpMode {
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        flip1 = hardwareMap.get(Servo.class, "flip1");
+        flip1 = hardwareMap.get(CRServo.class, "flip1");
         claw = hardwareMap.get(Servo.class, "claw");
         // Reverse the left motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -37,16 +38,20 @@ public class TankDrive extends OpMode {
             claw.setPosition(1);
         }
         if (gamepad1.b) {
-            claw.setPosition(0.4);
+            claw.setPosition(0);
         }
         if (gamepad2.a) {
             //flip2.setPosition(1);
-            flip1.setPosition(0.7);
+            flip1.setPower(-1);
         }
-        if (gamepad2.b) {
-            // flip2.setPosition(0);
-            flip1.setPosition(0);
+
+        if(gamepad2.b) {
+            flip1.setPower(0.5);
         }
+        else {
+            flip1.setPower(0);
+        }
+
         /*if(gamepad2.y) {
             flip1.setPosition(0.2);
         }
@@ -54,32 +59,15 @@ public class TankDrive extends OpMode {
             flip1.setPosition(0.4);
         }*/
 
-        double forward = 1;
-        double back = 1;
-        if(gamepad1.left_bumper) {
-            backLeft.setPower(forward);
-            backRight.setPower(back);
-            frontLeft.setPower(back);
-            frontRight.setPower(forward);
-        }
-        else if(gamepad1.right_bumper)
-        {
 
-            backLeft.setPower(back);
-            backRight.setPower(forward);
-            frontLeft.setPower(forward);
-            frontRight.setPower(back);
-
-
-        }
         // Tank drive control
 
-        double leftPower = -gamepad1.left_stick_y;
-        double rightPower = -gamepad1.right_stick_y;
+        double leftPower = (-gamepad1.left_stick_y)/2;
+        double rightPower = (-gamepad1.right_stick_y)/2;
         // claw control
 
         // Arm control
-        double armPower = (-gamepad2.right_stick_y)/2;
+        double armPower = (-gamepad2.right_stick_y)/4;
 
         // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
