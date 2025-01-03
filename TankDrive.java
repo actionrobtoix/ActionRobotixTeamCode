@@ -62,8 +62,8 @@ public class TankDrive extends OpMode {
 
         // Tank drive control
 
-        double leftPower = (-gamepad1.left_stick_y)/2;
-        double rightPower = (-gamepad1.right_stick_y)/2;
+        double leftPower = (-gamepad1.left_stick_y)/1.25;
+        double rightPower = (-gamepad1.right_stick_y)/1.25;
         // claw control
 
         // Arm control
