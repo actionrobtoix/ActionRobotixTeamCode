@@ -67,7 +67,7 @@ public class TankDrive extends OpMode {
         // claw control
 
         // Arm control
-        double armPower = (-gamepad2.right_stick_y)/4;
+        double armPower = (-gamepad2.right_stick_y)/3;
 
         // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
