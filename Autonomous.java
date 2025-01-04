@@ -31,31 +31,41 @@ public class Autonomous extends LinearOpMode {
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
-
-        moveBackward((float)0.3, 1400);
+//-335
+        /*moveBackward((float)0.3, 915);
+        sleep(250);*/
+        flipClawBack(0.3, 20);
+        sleep(1250);
+        /*moveArm(0.3, 3000);
         sleep(250);
-        /*moveArm(0.3, 4000);
+        moveForward((float)0.3, 200);
         sleep(250);
-        flipClaw(0.5);
-        sleep(250);
-        flipClaw(0);
-        sleep(250);
+        flipClaw(0.3, 150);
+        sleep(1250);
         moveClaw(0);
         sleep(250);
         moveArm(0.3, 400);
-        sleep(250);*/
-        strafeRight((float)0.3, 3550);
         sleep(250);
-        moveBackward((float)0.3, 1200);
+        moveArmBack(0.3, 4000);
+        sleep(250);
+        strafeRight((float)0.3, 3775);
+        sleep(250);
+        moveBackward((float)0.3, 1415);
         sleep(250);
         turnRight((float)0.3, 345);
         sleep(250);
-        moveForward((float)0.3, 2500);
+        strafeRight((float)0.3, 315);
         sleep(250);
-        moveBackward((float)0.3, 3300);
+        moveForward((float)0.3, 2665);
+        sleep(250);
+        moveBackward((float)0.3, 3465);
         sleep(250);
         strafeLeft((float)0.3, 850);
         sleep(250);
+        turnRight((float)0.3, 945);
+        sleep(250);
+        moveArm(0.3, 4000);
+        sleep(250);*/
     }
     public void moveForward (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -203,7 +213,17 @@ public class Autonomous extends LinearOpMode {
         sleep(time);
         arm.setPower(0);
     }
-    public void flipClaw (double power){
+    public void moveArmBack (double power, int time){
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
+        arm.setPower(power);
+        sleep(time);
+        arm.setPower(0);
+    }
+    public void flipClaw (double power, int time){
+        flip1.setPower(power);
+    }
+    public void flipClawBack (double power, int time){
+        flip1.setDirection(DcMotorSimple.Direction.REVERSE);
         flip1.setPower(power);
     }
 }
