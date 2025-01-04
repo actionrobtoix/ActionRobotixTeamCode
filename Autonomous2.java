@@ -49,11 +49,11 @@ public class Autonomous2 extends LinearOpMode {
         sleep(250);
         moveForward((float) 0.3, 2950);
         sleep(250);
-        turnLeft((float) 0.3, 1400);
+        turnLeft((float) 0.3, 1500);
         sleep(250);
         moveBackward((float) 0.3, 3000);
         sleep(250);
-        moveArm(0.3, 4000);
+        moveArm(0.3, 9000);
         sleep(250);
 
         /*turnRight((float) 0.3, 1050);
