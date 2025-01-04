@@ -16,6 +16,7 @@ public class TankDrive extends OpMode {
     private DcMotor arm;
     public Servo claw;
     public CRServo flip1;
+    double armDivisor = 3;
 
     @Override
     public void init() {
@@ -51,6 +52,13 @@ public class TankDrive extends OpMode {
         else {
             flip1.setPower(0);
         }
+        if(gamepad2.y) {
+            armDivisor = (1);
+        }
+        if(gamepad2.x) {
+            armDivisor = (3);
+        }
+
 
         /*if(gamepad2.y) {
             flip1.setPosition(0.2);
@@ -67,7 +75,7 @@ public class TankDrive extends OpMode {
         // claw control
 
         // Arm control
-        double armPower = (-gamepad2.right_stick_y)/3;
+        double armPower = (-gamepad2.right_stick_y/armDivisor);
 
         // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
