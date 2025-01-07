@@ -31,16 +31,16 @@ public class Autonomous extends LinearOpMode {
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
-//-335
-        moveBackward((float)0.3, 915);
+//-35
+        moveBackward((float)0.3, 1215);
         sleep(250);
-        flipClawBack(0.5);
-        sleep(250);
+        flipClawBack(0.6);
+        sleep(2000);
         moveArm(0.7, 3000);
         sleep(250);
         moveForward((float)0.3, 200);
         sleep(250);
-        flipClaw(0.5);
+        flipClaw(0.1);
         sleep(250);
         moveClaw(0);
         sleep(250);
@@ -48,7 +48,7 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         strafeRight((float)0.3, 3775);
         sleep(250);
-        moveBackward((float)0.3, 1415);
+        moveBackward((float)0.3, 1450);
         sleep(250);
         turnRight((float)0.3, 345);
         sleep(250);
