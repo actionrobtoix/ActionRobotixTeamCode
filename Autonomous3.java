@@ -29,20 +29,20 @@ public class Autonomous extends LinearOpMode {
         // Autonomous to put samples in the observation zone + park
         // Insert beginning
         waitForStart();
-        strafeLeft(.75F,500);
-        wait(250);
+        strafeLeft(.75F,700);
+        sleep(250);
         moveBackward(0.75F, 350);
-        wait(250);
+        sleep(250);
         strafeLeft(0.75F,350);
-        wait(250);
+        sleep(250);
         moveForward(0.75F,1000);
-        wait(250);
+        sleep(250);
         moveBackward(0.75F, 1000);
-        wait(250);
+        sleep(250);
         strafeLeft(0.75F, 200);
-        wait(250);
+        sleep(250);
         moveForward(0.75F, 1000);
-        wait(1000);
+        sleep(1000);
 
 
     }
