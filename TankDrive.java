@@ -40,6 +40,7 @@ public class TankDrive extends OpMode {
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+
     }
     @Override
     public void loop() {
@@ -52,12 +53,10 @@ public class TankDrive extends OpMode {
 
         // Game Pad 2
         if (gamepad2.a) {
-            servoPos -= 0.3;
-            flip1.setPosition(servoPos);
+            flip1.setPosition(0);
         }
         if(gamepad2.b) {
-            servoPos += 0.3;
-            flip1.setPosition(servoPos);
+            flip1.setPosition(0.6);
         }
 
         if(gamepad2.y)
