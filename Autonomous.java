@@ -17,6 +17,8 @@ public class Autonomous extends LinearOpMode {
     public Servo claw;
     public Servo flip1;
 
+    int position;
+
     @Override
     public void runOpMode() throws InterruptedException {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -27,44 +29,52 @@ public class Autonomous extends LinearOpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         flip1 = hardwareMap.get(Servo.class, "flip1");
 
+        // Set encoder for arm
+
+
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
-//-35
-        moveBackward((float)0.3, 1215);
+//-170
+        /* strafeLeft( 0.3F, 500);
+         sleep(1000);
+         flipClawBack(0.3);
+         sleep(200);*/
+
+        moveBackward((float)0.3, 1000);
+        sleep(200);
+        flipClaw(0.3);
         sleep(250);
-        flipClawBack(0.6);
-        sleep(2000);
-        moveArm(0.7, 3000);
+        moveArm(1100);
         sleep(250);
-        moveForward((float)0.3, 200);
-        sleep(250);
-        flipClaw(0.1);
+        moveBackward((float)0.3,300);
         sleep(250);
         moveClaw(0);
         sleep(250);
-        moveArmBack(0.3, 4000);
+        moveForward((float)0.3,500);
         sleep(250);
-        strafeRight((float)0.3, 3775);
+        flipClawBack(0.3);
         sleep(250);
-        moveBackward((float)0.3, 1450);
+        moveArm(0);
         sleep(250);
-        turnRight((float)0.3, 345);
+        strafeLeft(.5F,1500);
         sleep(250);
-        strafeRight((float)0.3, 315);
+        moveBackward(0.5F, 500);
         sleep(250);
-        moveForward((float)0.3, 2665);
+        strafeLeft(0.5F,500);
         sleep(250);
-        moveBackward((float)0.3, 3465);
+        moveForward(0.5F,1000);
         sleep(250);
-        strafeLeft((float)0.3, 850);
+        moveBackward(0.5F, 1000);
         sleep(250);
-        turnRight((float)0.3, 945);
+        strafeLeft(0.5F, 300);
         sleep(250);
-        moveArm(0.3, 4000);
-        sleep(250);
+        moveForward(0.5F, 1000);
+        sleep(1000);
+
     }
+
     public void moveForward (float power, int time){
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -224,4 +234,18 @@ public class Autonomous extends LinearOpMode {
         flip1.setDirection(Servo.Direction.REVERSE);
         flip1.setPosition(position);
     }
+
+    public void moveArm(int ticks) {
+        arm.setTargetPosition(ticks); // Define target position
+        arm.setPower(0.3); // Reduced power for slower movement
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Move to position using encoders
+
+        while (arm.isBusy()) {
+            telemetry.addData("Arm Position", arm.getCurrentPosition());
+            telemetry.update();
+        }
+
+        arm.setPower(0); // Stop motor once target is reached
+    }
+
 }
