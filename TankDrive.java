@@ -4,75 +4,90 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class TankDrive extends OpMode {
-    private DcMotor frontLeft;
-    private DcMotor frontRight;
-    private DcMotor backLeft;
-    private DcMotor backRight;
-    private DcMotor arm;
-    public Servo claw;
-    public CRServo flip1;
+
+    // Motors
+    DcMotor frontLeft, frontRight, backLeft, backRight, arm;
+    Servo claw, flip1;
+
+    // Variables
     double armDivisor = 3;
+    int position;
+    final double TPR = 537.7;
+    double servoPos = 0; // Servo starting pos *CHANGE LATER
 
     @Override
     public void init() {
+        // Hardware map
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        flip1 = hardwareMap.get(CRServo.class, "flip1");
+        flip1 = hardwareMap.get(Servo.class, "flip1");
         claw = hardwareMap.get(Servo.class, "claw");
+
         // Reverse the left motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // Set encoder for arm
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
     }
     @Override
     public void loop() {
-// claw control
-
-        if (gamepad1.a) {
-            claw.setPosition(1);
-        }
-        if (gamepad1.b) {
+        // Game Pad 1
+        // claw control
+        if (gamepad1.a)
             claw.setPosition(0);
-        }
+        if (gamepad1.b)
+            claw.setPosition(1);
+
+        // Game Pad 2
         if (gamepad2.a) {
-            //flip2.setPosition(1);
-            flip1.setPower(-1);
+            servoPos -= 0.3;
+            flip1.setPosition(servoPos);
         }
-
         if(gamepad2.b) {
-            flip1.setPower(0.5);
-        }
-        else {
-            flip1.setPower(0);
-        }
-        if(gamepad2.y) {
-            armDivisor = (1);
-        }
-        if(gamepad2.x) {
-            armDivisor = (3);
+            servoPos += 0.3;
+            flip1.setPosition(servoPos);
         }
 
+        if(gamepad2.y)
+            armDivisor = (1); // Makes arm faster; Ascent speed
+        if(gamepad2.x)
+            armDivisor = (3); // Makes arm slower; TeleOp speed
 
-        /*if(gamepad2.y) {
-            flip1.setPosition(0.2);
-        }
-        if (gamepad2.x) {
-            flip1.setPosition(0.4);
-        }*/
+
+        // Reset Arm
+        if (gamepad2.dpad_down)
+            moveArm(0);
+        //Grabbing Blocks Position
+        if (gamepad2.dpad_left)
+            moveArm(1950);
+        // Arm Up Position
+        if (gamepad2.dpad_up)
+            moveArm(910);
+
+
+        if (gamepad1.right_bumper)
+            strafeRight(.75F,100);
+
+        if (gamepad1.left_bumper)
+            strafeLeft(.75F, 100);
+
 
 
         // Tank drive control
-
         double leftPower = (-gamepad1.left_stick_y)/1.25;
         double rightPower = (-gamepad1.right_stick_y)/1.25;
-        // claw control
 
         // Arm control
         double armPower = (-gamepad2.right_stick_y/armDivisor);
@@ -86,7 +101,78 @@ public class TankDrive extends OpMode {
         frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
-        // set actual value for arm and claw
+
+        // Set actual value for arm and claw
         arm.setPower(armPower);
+
+        // Encoder tracking
+        telemetry.addData("Motor Ticks:  ", arm.getCurrentPosition());
     }
+    public void moveArm (int ticks) {
+        arm.setTargetPosition(ticks); //this defines the target position **always define first
+        arm.setPower(0.5); //always positive; helps with regulating speed no matter battery
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION); //this moves it to the target position
+        position = arm.getCurrentPosition();
+        arm.setPower(0);  // reset power
+    }
+    public void strafeLeft (float power, int time) {
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setPower(-power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(-power);
+        sleep(time);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
+    public void strafeRight (float power, int time) {
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setPower(power);
+        frontRight.setPower(-power);
+        backLeft.setPower(-power);
+        backRight.setPower(power);
+        sleep(time);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
+    // Sleep Method for Tele Op
+    public void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
 }
+/*
+public void moveArm(double degrees) {
+    // Define ticks per revolution for your motor
+    final int TPR = 537.7;
+
+    // Convert degrees to ticks
+    int ticks = (int) (degrees * TPR / 360.0);
+
+    // Move the arm using the calculated ticks
+    arm.setTargetPosition(ticks); // Set the target position
+    arm.setPower(0.5); // Set the motor power
+    arm.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Move the motor to the target position
+
+    position = arm.getCurrentPosition(); // Get the current position (optional)
+}
+ */
+/*position = arm.getCurrentPosition();
+        double revolutions = position/TPR;
+
+        double angle = revolutions * 360;
+        double angleNormalized = angle % 360;*/
