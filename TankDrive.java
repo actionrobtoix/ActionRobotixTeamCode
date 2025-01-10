@@ -17,6 +17,7 @@ public class TankDrive extends OpMode {
 
     // Variables
     double armDivisor = 3;
+    double driveDivisor = 1;
     int position;
     final double TPR = 537.7;
     double servoPos = 0; // Servo starting pos *CHANGE LATER
@@ -37,9 +38,8 @@ public class TankDrive extends OpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set encoder for arm
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+        //arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
     @Override
@@ -52,19 +52,24 @@ public class TankDrive extends OpMode {
             claw.setPosition(1);
 
         // Game Pad 2
-        if (gamepad2.a) {
-            flip1.setPosition(0);
-        }
-        if(gamepad2.b) {
+        if (gamepad2.b)
+            flip1.setPosition(0.2);
+        if(gamepad2.a)
             flip1.setPosition(0.6);
-        }
+        if (gamepad2.right_bumper)
+            flip1.setPosition(0);
 
         if(gamepad2.y)
             armDivisor = (1); // Makes arm faster; Ascent speed
         if(gamepad2.x)
             armDivisor = (3); // Makes arm slower; TeleOp speed
 
+        if(gamepad1.y)
+            driveDivisor = (1); // Makes movement slower;
+        if(gamepad1.x)
+            driveDivisor = (2); // Makes movement faster;
 
+        /*
         // Reset Arm
         if (gamepad2.dpad_down)
             moveArm(0);
@@ -74,19 +79,22 @@ public class TankDrive extends OpMode {
         // Arm Up Position
         if (gamepad2.dpad_up)
             moveArm(910);
+        */
 
-
+        // Strafe
         if (gamepad1.right_bumper)
-            strafeRight(.75F,100);
+            strafeRight(.60F,100);
 
         if (gamepad1.left_bumper)
-            strafeLeft(.75F, 100);
+            strafeLeft(.60F, 100);
+
 
 
 
         // Tank drive control
-        double leftPower = (-gamepad1.left_stick_y)/1.25;
-        double rightPower = (-gamepad1.right_stick_y)/1.25;
+        double leftPower = ((-gamepad1.left_stick_y)/driveDivisor);
+        double rightPower = ((-gamepad1.right_stick_y)/driveDivisor);
+
 
         // Arm control
         double armPower = (-gamepad2.right_stick_y/armDivisor);
@@ -108,11 +116,12 @@ public class TankDrive extends OpMode {
         telemetry.addData("Motor Ticks:  ", arm.getCurrentPosition());
     }
     public void moveArm (int ticks) {
+        //int turn = (int) (TPR) / (ticks);
         arm.setTargetPosition(ticks); //this defines the target position **always define first
-        arm.setPower(0.5); //always positive; helps with regulating speed no matter battery
+        arm.setPower(1); //always positive; helps with regulating speed no matter battery
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION); //this moves it to the target position
         position = arm.getCurrentPosition();
-        arm.setPower(0);  // reset power
+        //arm.setPower(0);  // reset power
     }
     public void strafeLeft (float power, int time) {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
