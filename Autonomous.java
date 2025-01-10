@@ -42,7 +42,7 @@ public class Autonomous extends LinearOpMode {
          flipClawBack(0.3);
          sleep(200);*/
 
-        moveBackward((float)0.3, 825);
+        moveBackward((float)0.3, 750);
         sleep(200);
         flipClaw(0.3);
         sleep(250);
@@ -52,7 +52,7 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         moveClaw(0);
         sleep(250);
-        moveForward(0.3F,350);
+        moveForward((float)0.3,500);
         sleep(250);
         flipClawBack(0.3);
         sleep(250);
@@ -60,18 +60,19 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         strafeLeft(.5F,1400);
         sleep(250);
-        moveBackward(0.5F, 1275);
+        moveBackward(0.5F, 1200);
         sleep(250);
         strafeLeft(0.5F,400);
         sleep(250);
-        moveForward(0.5F,1500);
+        moveForward(0.5F,1450);
         sleep(250);
         turnLeft(0.3F, 80);
-        moveBackward(0.5F, 1550);
         sleep(250);
-        strafeLeft(0.5F, 600);
+        moveBackward(0.5F, 1500);
         sleep(250);
-        moveForward(0.5F, 1500);
+        strafeLeft(0.5F, 450);
+        sleep(250);
+        moveForward(0.5F, 1400);
         sleep(1000);
 
     }
