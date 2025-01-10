@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode;
 //ONE TILE DISTANCE IS 350 MILLISECONDS AT 1 POWER
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -43,7 +42,7 @@ public class Autonomous extends LinearOpMode {
          flipClawBack(0.3);
          sleep(200);*/
 
-        moveBackward((float)0.3, 1000);
+        moveBackward((float)0.3, 825);
         sleep(200);
         flipClaw(0.3);
         sleep(250);
@@ -53,26 +52,26 @@ public class Autonomous extends LinearOpMode {
         sleep(250);
         moveClaw(0);
         sleep(250);
-        moveForward((float)0.3,500);
+        moveForward(0.3F,350);
         sleep(250);
         flipClawBack(0.3);
         sleep(250);
         moveArm(0);
         sleep(250);
-        strafeLeft(.5F,1600);
+        strafeLeft(.5F,1400);
         sleep(250);
-        moveBackward(0.5F, 1200);
+        moveBackward(0.5F, 1275);
         sleep(250);
-        strafeLeft(0.5F,550);
+        strafeLeft(0.5F,400);
         sleep(250);
-        moveForward(0.5F,1450);
+        moveForward(0.5F,1500);
         sleep(250);
         turnLeft(0.3F, 80);
-        moveBackward(0.5F, 1600);
+        moveBackward(0.5F, 1550);
         sleep(250);
         strafeLeft(0.5F, 600);
         sleep(250);
-        moveForward(0.5F, 1600);
+        moveForward(0.5F, 1500);
         sleep(1000);
 
     }
