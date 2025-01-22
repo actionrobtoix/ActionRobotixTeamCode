@@ -63,7 +63,7 @@ public class TankDrive extends OpMode {
     @Override
     public void loop() {
         // Game Pad 1
-        // claw control
+        // intake control
         if (gamepad1.a)
             intake.setPower(-1);
         if (gamepad1.b)
@@ -72,18 +72,12 @@ public class TankDrive extends OpMode {
         else {
             intake.setPower(0);
         }
-        // Game Pad 2
-        if (gamepad2.b)
-            flip1.setPosition(0.2);
-        if (gamepad2.a)
-            flip1.setPosition(0.6);
-        if (gamepad2.right_bumper)
-            flip1.setPosition(0);
 
-        if (gamepad2.y)
+
+       /* if (gamepad2.y)
             armDivisor = (1); // Makes arm faster; Ascent speed
         if (gamepad2.x)
-            armDivisor = (3); // Makes arm slower; TeleOp speed
+            armDivisor = (3); // Makes arm slower; TeleOp speed */
 
         if (gamepad1.y)
             driveDivisor = (1); // Makes movement slower;
@@ -109,7 +103,7 @@ public class TankDrive extends OpMode {
         if (gamepad1.left_bumper)
             strafeLeft(.60F, 100);
 
-
+        // claw control
         if (gamepad2.b) {
             claw.setPosition(0);
 
@@ -119,6 +113,36 @@ public class TankDrive extends OpMode {
             claw.setPosition(1);
 
         }
+        // transfer
+        if(gamepad2.y) {
+            horizontalSlide1.setPower(-1);
+            intake.setPower(1);
+            claw.setPosition(1);
+            arm.setPosition(0);
+            claw.setPosition(0);
+            arm.setPosition(0.5);
+
+        }
+
+        // arm specific functions
+
+        if(gamepad1.dpad_left) {
+            arm.setPosition(0.25); // specimen hang
+        }
+
+
+        if(gamepad1.dpad_right) {
+            arm.setPosition(0.8); // specimen wall
+        }
+
+        if(gamepad1.dpad_up) {
+            arm.setPosition(0.5); // high basket
+        }
+
+        if(gamepad1.dpad_down) {
+            arm.setPosition(0);  // reset arm
+        }
+
 
 
 
