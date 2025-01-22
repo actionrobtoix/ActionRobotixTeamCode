@@ -12,9 +12,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TankDrive extends OpMode {
 
     // Motors
-    DcMotor frontLeft, frontRight, backLeft, backRight, arm, horizontalSlide1, horizontalSlide2, verticalSlide1,verticalSlide2;
-    Servo  flip1, claw;
+    DcMotor frontLeft, frontRight, backLeft, backRight, horizontalSlide1, horizontalSlide2, verticalSlide1,verticalSlide2;
+    Servo  flip1, flip2, claw, flipClaw, arm;
     CRServo intake;
+
+
 
     // Variables
     double armDivisor = 3;
@@ -34,15 +36,19 @@ public class TankDrive extends OpMode {
         horizontalSlide2 = hardwareMap.get(DcMotor.class, "hSlide2");
         verticalSlide1 = hardwareMap.get(DcMotor.class, "vSlide1");
         verticalSlide2 = hardwareMap.get(DcMotor.class, "vSlide2");
-        
-        
 
-        arm = hardwareMap.get(DcMotor.class, "arm");
+
+
         flip1 = hardwareMap.get(Servo.class, "flip1");
+        flip2 = hardwareMap.get(Servo.class, "flip2");
+        flipClaw= hardwareMap.get(Servo.class, "flipClaw");
+        arm = hardwareMap.get(Servo.class, "arm");
+
+
         intake = hardwareMap.get(CRServo.class, "intake");
         claw = hardwareMap.get(Servo.class, "claw");
-        
-        
+
+
 
 
         // Reverse the left motors
@@ -69,19 +75,19 @@ public class TankDrive extends OpMode {
         // Game Pad 2
         if (gamepad2.b)
             flip1.setPosition(0.2);
-        if(gamepad2.a)
+        if (gamepad2.a)
             flip1.setPosition(0.6);
         if (gamepad2.right_bumper)
             flip1.setPosition(0);
 
-        if(gamepad2.y)
+        if (gamepad2.y)
             armDivisor = (1); // Makes arm faster; Ascent speed
-        if(gamepad2.x)
+        if (gamepad2.x)
             armDivisor = (3); // Makes arm slower; TeleOp speed
 
-        if(gamepad1.y)
+        if (gamepad1.y)
             driveDivisor = (1); // Makes movement slower;
-        if(gamepad1.x)
+        if (gamepad1.x)
             driveDivisor = (2); // Makes movement faster;
 
         /*
@@ -98,32 +104,35 @@ public class TankDrive extends OpMode {
 
         // Strafe
         if (gamepad1.right_bumper)
-            strafeRight(.60F,100);
+            strafeRight(.60F, 100);
 
         if (gamepad1.left_bumper)
             strafeLeft(.60F, 100);
-        
-        
-        if(gamepad2.x) {
-            claw.setPosition(-1);
-            
+
+
+        if (gamepad2.b) {
+            claw.setPosition(0);
+
         }
-        
+
+        if (gamepad2.a) {
+            claw.setPosition(1);
+
+        }
 
 
 
 
         // Tank drive control
-        double leftPower = ((-gamepad1.left_stick_y)/driveDivisor);
-        double rightPower = ((-gamepad1.right_stick_y)/driveDivisor);
-        
+        double leftPower = ((-gamepad1.left_stick_y) / driveDivisor);
+        double rightPower = ((-gamepad1.right_stick_y) / driveDivisor);
+
         // Arm control
         // double armPower = (-gamepad2.right_stick_y/armDivisor);
-        
+
         double hSlidePower = -gamepad2.left_stick_y;
-        double vSlidePower = -gamepad2.left_stick_y;
-        
-        
+        double vSlidePower = -gamepad2.right_stick_y;
+
 
         // Apply cubic scaling
         leftPower = leftPower * leftPower * leftPower;
@@ -140,21 +149,11 @@ public class TankDrive extends OpMode {
         horizontalSlide2.setPower(hSlidePower);
 
 
-
         // Set actual value for arm and claw
-       // arm.setPower(armPower);
+        // arm.setPower(armPower);
 
-        // Encoder tracking
-        telemetry.addData("Motor Ticks:  ", arm.getCurrentPosition());
     }
-    public void moveArm (int ticks) {
-        //int turn = (int) (TPR) / (ticks);
-        arm.setTargetPosition(ticks); //this defines the target position **always define first
-        arm.setPower(1); //always positive; helps with regulating speed no matter battery
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION); //this moves it to the target position
-        position = arm.getCurrentPosition();
-        //arm.setPower(0);  // reset power
-    }
+
     public void strafeLeft (float power, int time) {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
