@@ -16,7 +16,7 @@ public class TankDrive extends OpMode {
     // Motors
     DcMotor frontLeft, frontRight, backLeft, backRight, horizontalSlide1, horizontalSlide2, verticalSlide1,verticalSlide2;
     Servo  flip1, flip2, flipClaw, arm, claw;
-    CRServo intake;
+    CRServo intake1, intake2;
 
 
 
@@ -51,7 +51,8 @@ public class TankDrive extends OpMode {
         arm = hardwareMap.get(Servo.class, "arm");
 
 
-        intake = hardwareMap.get(CRServo.class, "intake");
+        intake1 = hardwareMap.get(CRServo.class, "intake");
+        intake2 = hardwareMap.get(CRServo.class, "intake2");
         claw = hardwareMap.get(Servo.class, "claw");
 
 
@@ -70,13 +71,17 @@ public class TankDrive extends OpMode {
     public void loop() {
         // Game Pad 1
         // intake control
-        if (gamepad1.a)
-            intake.setPower(-1);
-        if (gamepad1.b)
-            intake.setPower(1);
-
+        if (gamepad1.a) {
+            intake1.setPower(-1);
+            intake2.setPower(-1);
+        }
+        if (gamepad1.b) {
+            intake1.setPower(1);
+            intake2.setPower(-1);
+        }
         else {
-            intake.setPower(0);
+            intake1.setPower(0);
+            intake2.setPower(-1);
         }
 
         if (gamepad2.x && !xPressed) {
@@ -85,9 +90,11 @@ public class TankDrive extends OpMode {
 
             // Set `flip1` position based on the toggle state
             if (toggleState) {
-                flip1.setPosition(0.3); // Position A
+                flip1.setPosition(0.3);// Position A
+                flip2.setPosition(0.3);
             } else {
                 flip1.setPosition(0.7); // Position B
+                flip2.setPosition(0.7);
             }
 
 
@@ -153,13 +160,15 @@ public class TankDrive extends OpMode {
 
             if (elapsedTime < 500) {
                 // First action (e.g., activate intake)
-                intake.setPower(1);
+                intake1.setPower(1);
+                intake2.setPower(1);
             } else if (elapsedTime < 1000) {
                 // Second action (e.g., close claw)
                 claw.setPosition(1);
             } else {
                 // Final action (e.g., stop intake)
-                intake.setPower(0);
+                intake1.setPower(0);
+                intake2.setPower(0);
                 actionInProgress = false;  // Action complete, reset flag
             }
         }
