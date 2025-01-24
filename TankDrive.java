@@ -7,13 +7,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 @TeleOp
 public class TankDrive extends OpMode {
 
     // Motors
     DcMotor frontLeft, frontRight, backLeft, backRight, horizontalSlide1, horizontalSlide2, verticalSlide1,verticalSlide2;
-    Servo  flip1, flip2, claw, flipClaw, arm;
+    Servo  flip1, flip2, flipClaw, arm, claw;
     CRServo intake;
 
 
@@ -24,6 +26,10 @@ public class TankDrive extends OpMode {
     int position;
     final double TPR = 537.7;
     double servoPos = 0; // Servo starting pos *CHANGE LATER
+    boolean xPressed = false; // Tracks if the button was pressed
+    boolean toggleState = false;
+    ElapsedTime timer = new ElapsedTime();
+    boolean actionInProgress = false;
 
     @Override
     public void init() {
@@ -73,6 +79,28 @@ public class TankDrive extends OpMode {
             intake.setPower(0);
         }
 
+        if (gamepad2.x && !xPressed) {
+            // Toggle the state
+            toggleState = !toggleState;
+
+            // Set `flip1` position based on the toggle state
+            if (toggleState) {
+                flip1.setPosition(0.3); // Position A
+            } else {
+                flip1.setPosition(0.7); // Position B
+            }
+
+
+            xPressed = true;
+        }
+
+        // Reset the press state when the button is released
+        if (!gamepad2.x) {
+            xPressed = false;
+        }
+
+
+
 
        /* if (gamepad2.y)
             armDivisor = (1); // Makes arm faster; Ascent speed
@@ -105,24 +133,37 @@ public class TankDrive extends OpMode {
 
         // claw control
         if (gamepad2.b) {
-            claw.setPosition(0);
+            claw.setPosition(1);
 
         }
 
         if (gamepad2.a) {
-            claw.setPosition(1);
+            claw.setPosition(0);
 
         }
         // transfer
-        if(gamepad2.y) {
-            horizontalSlide1.setPower(-1);
-            intake.setPower(1);
-            claw.setPosition(1);
-            arm.setPosition(0);
-            claw.setPosition(0);
-            arm.setPosition(0.5);
 
+        if (gamepad2.y && !actionInProgress) {
+            actionInProgress = true;
+            timer.reset();
         }
+
+        if (actionInProgress) {
+            double elapsedTime = timer.milliseconds();
+
+            if (elapsedTime < 500) {
+                // First action (e.g., activate intake)
+                intake.setPower(1);
+            } else if (elapsedTime < 1000) {
+                // Second action (e.g., close claw)
+                claw.setPosition(1);
+            } else {
+                // Final action (e.g., stop intake)
+                intake.setPower(0);
+                actionInProgress = false;  // Action complete, reset flag
+            }
+        }
+
 
         // arm specific functions
 
@@ -150,6 +191,8 @@ public class TankDrive extends OpMode {
         // Tank drive control
         double leftPower = ((-gamepad1.left_stick_y) / driveDivisor);
         double rightPower = ((-gamepad1.right_stick_y) / driveDivisor);
+
+
 
         // Arm control
         // double armPower = (-gamepad2.right_stick_y/armDivisor);
