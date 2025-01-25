@@ -73,7 +73,7 @@ public class TankDrive extends OpMode {
         // intake control
         if (gamepad1.a) {
             intake1.setPower(-1);
-            intake2.setPower(-1);
+            intake2.setPower(1);
         }
         if (gamepad1.b) {
             intake1.setPower(1);
@@ -81,7 +81,7 @@ public class TankDrive extends OpMode {
         }
         else {
             intake1.setPower(0);
-            intake2.setPower(-1);
+            intake2.setPower(0);
         }
 
         if (gamepad2.x && !xPressed) {
@@ -119,8 +119,8 @@ public class TankDrive extends OpMode {
         if (gamepad1.x)
             driveDivisor = (2); // Makes movement faster;
 
-        /*
-        // Reset Arm
+
+      /*  // Reset Arm
         if (gamepad2.dpad_down)
             moveArm(0);
         //Grabbing Blocks Position
@@ -129,7 +129,9 @@ public class TankDrive extends OpMode {
         // Arm Up Position
         if (gamepad2.dpad_up)
             moveArm(910);
-        */
+
+       */
+
 
         // Strafe
         if (gamepad1.right_bumper)
