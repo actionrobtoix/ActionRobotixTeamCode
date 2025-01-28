@@ -14,10 +14,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TankDrive extends OpMode {
 
     // Motors
-    DcMotor frontLeft, frontRight, backLeft, backRight, horizontalSlide1, horizontalSlide2, verticalSlide1,verticalSlide2;
-    Servo  flip1, flip2, flipClaw, arm, claw;
-    CRServo intake1, intake2;
+      DcMotor frontLeft, frontRight, backLeft, backRight;
+    DcMotor horizontalSlide1, horizontalSlide2, verticalSlide1, verticalSlide2;
+    Servo flip1, flip2, arm, claw;
 
+    CRServo intake1, intake2;
 
 
     // Variables
@@ -34,20 +35,19 @@ public class TankDrive extends OpMode {
     @Override
     public void init() {
         // Hardware map
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
-        horizontalSlide1 = hardwareMap.get(DcMotor.class, "hSlide1");
-        horizontalSlide2 = hardwareMap.get(DcMotor.class, "hSlide2");
+          frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+          frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+          backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+         backRight = hardwareMap.get(DcMotor.class, "backRight");
+       horizontalSlide1 = hardwareMap.get(DcMotor.class, "hSlide1");
+      horizontalSlide2 = hardwareMap.get(DcMotor.class, "hSlide2");
         verticalSlide1 = hardwareMap.get(DcMotor.class, "vSlide1");
         verticalSlide2 = hardwareMap.get(DcMotor.class, "vSlide2");
 
 
-
         flip1 = hardwareMap.get(Servo.class, "flip1");
         flip2 = hardwareMap.get(Servo.class, "flip2");
-        flipClaw= hardwareMap.get(Servo.class, "flipClaw");
+
         arm = hardwareMap.get(Servo.class, "arm");
 
 
@@ -56,44 +56,55 @@ public class TankDrive extends OpMode {
         claw = hardwareMap.get(Servo.class, "claw");
 
 
-
-
         // Reverse the left motors
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set encoder for arm
-        //arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //  verticalSlide1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       // verticalSlide2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //horizontalSlide1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //horizontalSlide2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
+
+        verticalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        verticalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizontalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizontalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
 
     }
+
     @Override
     public void loop() {
         // Game Pad 1
         // intake control
-        if (gamepad1.a) {
+        if (gamepad1.cross) {
             intake1.setPower(-1);
             intake2.setPower(1);
         }
-        if (gamepad1.b) {
+        if (gamepad1.circle) {
             intake1.setPower(1);
             intake2.setPower(-1);
-        }
-        else {
+        } else {
             intake1.setPower(0);
             intake2.setPower(0);
         }
 
-        if (gamepad2.x && !xPressed) {
+        if (gamepad2.square && !xPressed) {
             // Toggle the state
             toggleState = !toggleState;
 
             // Set `flip1` position based on the toggle state
             if (toggleState) {
-                flip1.setPosition(0.3);// Position A
+              flip1.setPosition(0.3);// Position A
                 flip2.setPosition(0.3);
             } else {
-                flip1.setPosition(0.7); // Position B
+               flip1.setPosition(0.7); // Position B
                 flip2.setPosition(0.7);
             }
 
@@ -102,7 +113,7 @@ public class TankDrive extends OpMode {
         }
 
         // Reset the press state when the button is released
-        if (!gamepad2.x) {
+        if (!gamepad2.square) {
             xPressed = false;
         }
 
@@ -114,45 +125,43 @@ public class TankDrive extends OpMode {
         if (gamepad2.x)
             armDivisor = (3); // Makes arm slower; TeleOp speed */
 
-        if (gamepad1.y)
+        if (gamepad1.triangle)
             driveDivisor = (1); // Makes movement slower;
-        if (gamepad1.x)
+        if (gamepad1.square)
             driveDivisor = (2); // Makes movement faster;
 
 
-      /*  // Reset Arm
+        // Reset Arm
         if (gamepad2.dpad_down)
-            moveArm(0);
+            arm.setPosition(0);
         //Grabbing Blocks Position
         if (gamepad2.dpad_left)
-            moveArm(1950);
+            arm.setPosition(0.5);
         // Arm Up Position
         if (gamepad2.dpad_up)
-            moveArm(910);
-
-       */
+            arm.setPosition(0.8);
 
 
         // Strafe
         if (gamepad1.right_bumper)
-            strafeRight(.60F, 100);
+         strafeRight(.60F, 100);
 
         if (gamepad1.left_bumper)
-            strafeLeft(.60F, 100);
+         strafeLeft(.60F, 100);
 
         // claw control
-        if (gamepad2.b) {
-            claw.setPosition(1);
+        if (gamepad2.cross) {
+           claw.setPosition(1);
 
         }
 
-        if (gamepad2.a) {
+        if (gamepad2.circle) {
             claw.setPosition(0);
 
         }
         // transfer
 
-        if (gamepad2.y && !actionInProgress) {
+        if (gamepad2.triangle && !actionInProgress) {
             actionInProgress = true;
             timer.reset();
         }
@@ -162,11 +171,10 @@ public class TankDrive extends OpMode {
 
             if (elapsedTime < 500) {
                 // First action (e.g., activate intake)
-                intake1.setPower(1);
-                intake2.setPower(1);
+               claw.setPosition(1);
             } else if (elapsedTime < 1000) {
                 // Second action (e.g., close claw)
-                claw.setPosition(1);
+                arm.setPosition(0.5);
             } else {
                 // Final action (e.g., stop intake)
                 intake1.setPower(0);
@@ -178,31 +186,27 @@ public class TankDrive extends OpMode {
 
         // arm specific functions
 
-        if(gamepad1.dpad_left) {
+        if (gamepad1.dpad_left) {
             arm.setPosition(0.25); // specimen hang
         }
 
 
-        if(gamepad1.dpad_right) {
-            arm.setPosition(0.8); // specimen wall
+        if (gamepad1.dpad_right) {
+           arm.setPosition(0.8); // specimen wall
         }
 
-        if(gamepad1.dpad_up) {
+        if (gamepad1.dpad_up) {
             arm.setPosition(0.5); // high basket
         }
 
-        if(gamepad1.dpad_down) {
+        if (gamepad1.dpad_down) {
             arm.setPosition(0);  // reset arm
         }
 
 
-
-
-
         // Tank drive control
         double leftPower = ((-gamepad1.left_stick_y) / driveDivisor);
-        double rightPower = ((-gamepad1.right_stick_y) / driveDivisor);
-
+       double rightPower = ((-gamepad1.right_stick_y) / driveDivisor);
 
 
         // Arm control
@@ -213,11 +217,11 @@ public class TankDrive extends OpMode {
 
 
         // Apply cubic scaling
-        leftPower = leftPower * leftPower * leftPower;
+       leftPower = leftPower * leftPower * leftPower;
         rightPower = rightPower * rightPower * rightPower;
 
         // Set power for the drive motors
-        frontLeft.setPower(leftPower);
+         frontLeft.setPower(leftPower);
         frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
@@ -231,7 +235,6 @@ public class TankDrive extends OpMode {
         // arm.setPower(armPower);
 
     }
-
     public void strafeLeft (float power, int time) {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -270,10 +273,13 @@ public class TankDrive extends OpMode {
             Thread.currentThread().interrupt();
         }
     }
-
 }
-/*
-public void moveArm(double degrees) {
+
+
+
+
+
+/*public void moveArm(double degrees) {
     // Define ticks per revolution for your motor
     final int TPR = 537.7;
 
@@ -287,7 +293,7 @@ public void moveArm(double degrees) {
 
     position = arm.getCurrentPosition(); // Get the current position (optional)
 }
- */
+
 /*position = arm.getCurrentPosition();
         double revolutions = position/TPR;
 
