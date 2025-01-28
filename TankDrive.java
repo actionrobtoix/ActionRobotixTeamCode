@@ -16,7 +16,7 @@ public class TankDrive extends OpMode {
     // Motors
       DcMotor frontLeft, frontRight, backLeft, backRight;
     DcMotor horizontalSlide1, horizontalSlide2, verticalSlide1, verticalSlide2;
-    Servo flip1, flip2, arm, claw;
+    Servo flip1, flip2, arm1, arm2, claw;
 
     CRServo intake1, intake2;
 
@@ -31,6 +31,11 @@ public class TankDrive extends OpMode {
     boolean toggleState = false;
     ElapsedTime timer = new ElapsedTime();
     boolean actionInProgress = false;
+    final int SLIDE_LOW = 0;
+    final int SLIDE_HIGH = 1000;
+    final int SlideIn = 0;
+    final int SlideOut = 400;
+
 
     @Override
     public void init() {
@@ -48,10 +53,11 @@ public class TankDrive extends OpMode {
         flip1 = hardwareMap.get(Servo.class, "flip1");
         flip2 = hardwareMap.get(Servo.class, "flip2");
 
-        arm = hardwareMap.get(Servo.class, "arm");
+        arm1 = hardwareMap.get(Servo.class, "arm1");
 
 
-        intake1 = hardwareMap.get(CRServo.class, "intake");
+
+        intake1 = hardwareMap.get(CRServo.class, "intake1");
         intake2 = hardwareMap.get(CRServo.class, "intake2");
         claw = hardwareMap.get(Servo.class, "claw");
 
@@ -69,10 +75,10 @@ public class TankDrive extends OpMode {
 
 
 
-        verticalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horizontalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horizontalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       // verticalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       // verticalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       // horizontalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      //  horizontalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
 
@@ -81,6 +87,68 @@ public class TankDrive extends OpMode {
 
     @Override
     public void loop() {
+
+
+        if (Math.abs(gamepad2.right_stick_y) > 0.1) {
+            // Switch to RUN_WITHOUT_ENCODER for joystick control
+            verticalSlide1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            verticalSlide2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            double vSlidePower = -gamepad2.right_stick_y;
+            verticalSlide1.setPower(vSlidePower);
+            verticalSlide2.setPower(vSlidePower);
+        }
+        else if (gamepad2.dpad_up || gamepad2.dpad_down) {
+            // Switch to RUN_TO_POSITION for encoder control
+            verticalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            verticalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // Set target positions based on D-pad input
+            if (gamepad2.dpad_up) {
+                verticalSlide1.setTargetPosition(SLIDE_HIGH);
+                verticalSlide2.setTargetPosition(SLIDE_HIGH);
+            } else if (gamepad2.dpad_down) {
+                verticalSlide1.setTargetPosition(SLIDE_LOW);
+                verticalSlide2.setTargetPosition(SLIDE_LOW);
+            }
+
+            verticalSlide1.setPower(0.8);
+            verticalSlide2.setPower(0.8);
+        }
+        else {
+            verticalSlide1.setPower(0);
+            verticalSlide2.setPower(0);
+        }
+
+
+        if (Math.abs(gamepad2.left_stick_y) > 0.1) {
+            // Switch to RUN_WITHOUT_ENCODER for joystick control
+            horizontalSlide1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            horizontalSlide2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            double hSlidePower = -gamepad2.left_stick_y;
+            horizontalSlide1.setPower(hSlidePower);
+            horizontalSlide2.setPower(hSlidePower);
+        }
+        else if (gamepad2.dpad_up || gamepad2.dpad_down) {
+            // Switch to RUN_TO_POSITION for encoder control
+            horizontalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            horizontalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // Set target positions based on D-pad input
+            if (gamepad2.dpad_left) {
+                horizontalSlide1.setTargetPosition(SlideIn);
+                horizontalSlide2.setTargetPosition(SlideIn);
+            } else if (gamepad2.dpad_right) {
+                horizontalSlide1.setTargetPosition(SlideOut);
+                horizontalSlide2.setTargetPosition(SlideOut);
+            }
+
+            horizontalSlide1.setPower(0.8);
+            horizontalSlide2.setPower(0.8);
+        }
+        else {
+            horizontalSlide1.setPower(0);
+            horizontalSlide2.setPower(0);
+        }
         // Game Pad 1
         // intake control
         if (gamepad1.cross) {
@@ -90,10 +158,8 @@ public class TankDrive extends OpMode {
         if (gamepad1.circle) {
             intake1.setPower(1);
             intake2.setPower(-1);
-        } else {
-            intake1.setPower(0);
-            intake2.setPower(0);
         }
+
 
         if (gamepad2.square && !xPressed) {
             // Toggle the state
@@ -132,14 +198,7 @@ public class TankDrive extends OpMode {
 
 
         // Reset Arm
-        if (gamepad2.dpad_down)
-            arm.setPosition(0);
-        //Grabbing Blocks Position
-        if (gamepad2.dpad_left)
-            arm.setPosition(0.5);
-        // Arm Up Position
-        if (gamepad2.dpad_up)
-            arm.setPosition(0.8);
+
 
 
         // Strafe
@@ -174,7 +233,9 @@ public class TankDrive extends OpMode {
                claw.setPosition(1);
             } else if (elapsedTime < 1000) {
                 // Second action (e.g., close claw)
-                arm.setPosition(0.5);
+                arm1.setPosition(0.5);
+
+
             } else {
                 // Final action (e.g., stop intake)
                 intake1.setPower(0);
@@ -187,20 +248,23 @@ public class TankDrive extends OpMode {
         // arm specific functions
 
         if (gamepad1.dpad_left) {
-            arm.setPosition(0.25); // specimen hang
+            arm1.setPosition(0.2);
         }
 
 
         if (gamepad1.dpad_right) {
-           arm.setPosition(0.8); // specimen wall
+           arm1.setPosition(0.8);
+
         }
 
         if (gamepad1.dpad_up) {
-            arm.setPosition(0.5); // high basket
+            arm1.setPosition(0.5);
+
         }
 
         if (gamepad1.dpad_down) {
-            arm.setPosition(0);  // reset arm
+            arm1.setPosition(0);
+
         }
 
 
@@ -213,7 +277,6 @@ public class TankDrive extends OpMode {
         // double armPower = (-gamepad2.right_stick_y/armDivisor);
 
         double hSlidePower = -gamepad2.left_stick_y;
-        double vSlidePower = -gamepad2.right_stick_y;
 
 
         // Apply cubic scaling
@@ -225,8 +288,6 @@ public class TankDrive extends OpMode {
         frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
-        verticalSlide1.setPower(vSlidePower);
-        verticalSlide2.setPower(vSlidePower);
         horizontalSlide1.setPower(hSlidePower);
         horizontalSlide2.setPower(hSlidePower);
 
@@ -236,10 +297,6 @@ public class TankDrive extends OpMode {
 
     }
     public void strafeLeft (float power, int time) {
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeft.setPower(-power);
         frontRight.setPower(power);
         backLeft.setPower(power);
@@ -251,10 +308,6 @@ public class TankDrive extends OpMode {
         backRight.setPower(0);
     }
     public void strafeRight (float power, int time) {
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeft.setPower(power);
         frontRight.setPower(-power);
         backLeft.setPower(-power);
