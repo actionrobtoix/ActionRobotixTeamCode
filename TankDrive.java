@@ -128,7 +128,7 @@ public class TankDrive extends OpMode {
             horizontalSlide1.setPower(hSlidePower);
             horizontalSlide2.setPower(hSlidePower);
         }
-        else if (gamepad2.dpad_up || gamepad2.dpad_down) {
+        else if (gamepad2.dpad_left || gamepad2.dpad_right) {
             // Switch to RUN_TO_POSITION for encoder control
             horizontalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             horizontalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
