@@ -54,7 +54,7 @@ public class TankDrive extends OpMode {
         flip2 = hardwareMap.get(Servo.class, "flip2");
 
         arm1 = hardwareMap.get(Servo.class, "arm1");
-        arm2 = hardwareMap.get(Servo.class, "arm1");
+        arm2 = hardwareMap.get(Servo.class, "arm2");
 
 
 
