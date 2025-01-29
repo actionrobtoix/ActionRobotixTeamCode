@@ -268,21 +268,24 @@ public class TankDrive extends OpMode {
 
 
         if (gamepad1.dpad_right) {
-          // arm1.setPosition(0);
-            arm2.setPosition(0);
+          arm1.setPosition(0);
+
+          setReversedServoPosition(arm2, 1); 
 
 
         }
 
-//if (gamepad1.dpad_up) {
-           // arm1.setPosition(0.6);
-        // arm2.setPosition(0.6);
+if (gamepad1.dpad_up) {
+            arm1.setPosition(0.6);
 
-      //  }
+           setReversedServoPosition(arm2, 0.4);
+
+}
 
         if (gamepad1.dpad_down) {
-            //arm1.setPosition(0.5);
-           arm2.setPosition(1);
+            arm1.setPosition(0.5);
+            setReversedServoPosition(arm2, 0.5);
+
 
         }
 
@@ -326,6 +329,11 @@ public class TankDrive extends OpMode {
         // arm.setPower(armPower);
 
     }
+
+    public void setReversedServoPosition(Servo arm2, double position) {
+        arm2.setPosition(1.0 - position);
+    }
+
     public void strafeLeft (float power, int time) {
         frontLeft.setPower(-power);
         frontRight.setPower(power);
