@@ -27,7 +27,7 @@ public class TankDrive extends OpMode {
     int position;
     final double TPR = 537.7;
     double servoPos = 0; // Servo starting pos *CHANGE LATER
-    boolean xPressed = false; // Tracks if the button was pressed
+    boolean squarePressed = false; // Tracks if the button was pressed
     boolean toggleState = false;
     ElapsedTime timer = new ElapsedTime();
     boolean actionInProgress = false;
@@ -54,6 +54,8 @@ public class TankDrive extends OpMode {
         flip2 = hardwareMap.get(Servo.class, "flip2");
 
         arm1 = hardwareMap.get(Servo.class, "arm1");
+        arm2 = hardwareMap.get(Servo.class, "arm1");
+
 
 
 
@@ -89,12 +91,12 @@ public class TankDrive extends OpMode {
     public void loop() {
 
 
-        if (Math.abs(gamepad2.right_stick_y) > 0.1) {
+      /*  if (Math.abs(gamepad2.right_stick_y) > 0.1) {
             // Switch to RUN_WITHOUT_ENCODER for joystick control
             verticalSlide1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             verticalSlide2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             double vSlidePower = -gamepad2.right_stick_y;
-            verticalSlide1.setPower(vSlidePower);
+            verticalSlide1.setPower(-vSlidePower);
             verticalSlide2.setPower(vSlidePower);
         }
         else if (gamepad2.dpad_up || gamepad2.dpad_down) {
@@ -111,22 +113,22 @@ public class TankDrive extends OpMode {
                 verticalSlide2.setTargetPosition(SLIDE_LOW);
             }
 
-            verticalSlide1.setPower(0.8);
-            verticalSlide2.setPower(0.8);
+            verticalSlide1.setPower(0.6);
+            verticalSlide2.setPower(0.6);
         }
         else {
             verticalSlide1.setPower(0);
             verticalSlide2.setPower(0);
-        }
+        } */
 
 
-        if (Math.abs(gamepad2.left_stick_y) > 0.1) {
+       /* if (Math.abs(gamepad2.left_stick_y) > 0.1) {
             // Switch to RUN_WITHOUT_ENCODER for joystick control
             horizontalSlide1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             horizontalSlide2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             double hSlidePower = -gamepad2.left_stick_y;
             horizontalSlide1.setPower(hSlidePower);
-            horizontalSlide2.setPower(hSlidePower);
+            horizontalSlide2.setPower(-hSlidePower);
         }
         else if (gamepad2.dpad_left || gamepad2.dpad_right) {
             // Switch to RUN_TO_POSITION for encoder control
@@ -148,7 +150,7 @@ public class TankDrive extends OpMode {
         else {
             horizontalSlide1.setPower(0);
             horizontalSlide2.setPower(0);
-        }
+        } */
         // Game Pad 1
         // intake control
         if (gamepad1.cross) {
@@ -160,27 +162,42 @@ public class TankDrive extends OpMode {
             intake2.setPower(-1);
         }
 
+        else {
+            intake1.setPower(0);
+            intake2.setPower(0);
+        }
 
-        if (gamepad2.square && !xPressed) {
+
+        if (gamepad2.square && !squarePressed) {
             // Toggle the state
             toggleState = !toggleState;
 
             // Set `flip1` position based on the toggle state
             if (toggleState) {
-              flip1.setPosition(0.3);// Position A
+              flip1.setPosition(0.1);// Position intake
+                flip2.setPosition(0.1);
+            }
+            else {
+                flip1.setPosition(0.3); //position let it in
                 flip2.setPosition(0.3);
-            } else {
-               flip1.setPosition(0.7); // Position B
-                flip2.setPosition(0.7);
+            }
+
+            if (gamepad2.y) {
+                flip1.setPosition(0.5); // flip tray
+                flip2.setPosition(0.5);
             }
 
 
-            xPressed = true;
+
+
+
+            squarePressed = true;
+
         }
 
         // Reset the press state when the button is released
         if (!gamepad2.square) {
-            xPressed = false;
+            squarePressed = false;
         }
 
 
@@ -203,10 +220,10 @@ public class TankDrive extends OpMode {
 
         // Strafe
         if (gamepad1.right_bumper)
-         strafeRight(.60F, 100);
+         strafeRight(.80F, 100);
 
         if (gamepad1.left_bumper)
-         strafeLeft(.60F, 100);
+         strafeLeft(.80F, 100);
 
         // claw control
         if (gamepad2.cross) {
@@ -230,16 +247,17 @@ public class TankDrive extends OpMode {
 
             if (elapsedTime < 500) {
                 // First action (e.g., activate intake)
-               claw.setPosition(1);
+               flip1.setPosition(0.5);
+               flip2.setPosition(0.5);
             } else if (elapsedTime < 1000) {
                 // Second action (e.g., close claw)
-                arm1.setPosition(0.5);
+
+                claw.setPosition(1);
 
 
             } else {
                 // Final action (e.g., stop intake)
-                intake1.setPower(0);
-                intake2.setPower(0);
+
                 actionInProgress = false;  // Action complete, reset flag
             }
         }
@@ -247,23 +265,24 @@ public class TankDrive extends OpMode {
 
         // arm specific functions
 
-        if (gamepad1.dpad_left) {
-            arm1.setPosition(0.2);
-        }
 
 
         if (gamepad1.dpad_right) {
-           arm1.setPosition(0.8);
+          // arm1.setPosition(0);
+            arm2.setPosition(0);
+
 
         }
 
-        if (gamepad1.dpad_up) {
-            arm1.setPosition(0.5);
+//if (gamepad1.dpad_up) {
+           // arm1.setPosition(0.6);
+        // arm2.setPosition(0.6);
 
-        }
+      //  }
 
         if (gamepad1.dpad_down) {
-            arm1.setPosition(0);
+            //arm1.setPosition(0.5);
+           arm2.setPosition(1);
 
         }
 
@@ -273,10 +292,14 @@ public class TankDrive extends OpMode {
        double rightPower = ((-gamepad1.right_stick_y) / driveDivisor);
 
 
+       double vSlidePower = -gamepad2.right_stick_y;
+        double hSlidePower = -gamepad2.left_stick_y;
+
+
+
         // Arm control
         // double armPower = (-gamepad2.right_stick_y/armDivisor);
 
-        double hSlidePower = -gamepad2.left_stick_y;
 
 
         // Apply cubic scaling
@@ -288,8 +311,15 @@ public class TankDrive extends OpMode {
         frontRight.setPower(rightPower);
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
+
+        verticalSlide1.setPower(vSlidePower);
+        verticalSlide2.setPower(vSlidePower);
+
+
         horizontalSlide1.setPower(hSlidePower);
-        horizontalSlide2.setPower(hSlidePower);
+        horizontalSlide2.setPower(-hSlidePower);
+
+
 
 
         // Set actual value for arm and claw
