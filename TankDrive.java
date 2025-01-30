@@ -37,6 +37,7 @@ public class TankDrive extends OpMode {
     final int SlideOut = 400;
 
 
+
     @Override
     public void init() {
         // Hardware map
@@ -174,19 +175,32 @@ public class TankDrive extends OpMode {
 
             // Set `flip1` position based on the toggle state
             if (toggleState) {
-              flip1.setPosition(0.1);// Position intake
+                flip1.setPosition(0.1);// Position intake
                 flip2.setPosition(0.1);
+
+
+
+
+
+
             }
             else {
                 flip1.setPosition(0.3); //position let it in
                 flip2.setPosition(0.3);
+
+
+
+
+
             }
 
             if (gamepad2.y) {
                 flip1.setPosition(0.5); // flip tray
                 flip2.setPosition(0.5);
-            }
 
+
+
+            }
 
 
 
@@ -268,23 +282,30 @@ public class TankDrive extends OpMode {
 
 
         if (gamepad1.dpad_right) {
-          arm1.setPosition(0);
+        //  arm2.setPosition(0);
 
-          setReversedServoPosition(arm2, 1); 
+      //   setReversedServoPosition(arm1, 1);
+
+            arm1.setPosition(0.45);
 
 
         }
 
 if (gamepad1.dpad_up) {
-            arm1.setPosition(0.6);
+          // arm2.setPosition(0.3);
 
-           setReversedServoPosition(arm2, 0.4);
+         // setReversedServoPosition(arm1, 0.4);
+    arm1.setPosition(0.5);
+
+
+
 
 }
 
         if (gamepad1.dpad_down) {
-            arm1.setPosition(0.5);
-            setReversedServoPosition(arm2, 0.5);
+          //  arm2.setPosition(1);
+          //  setReversedServoPosition(arm1, 0.5);
+            arm1.setPosition(1);
 
 
         }
@@ -315,12 +336,15 @@ if (gamepad1.dpad_up) {
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
 
-        verticalSlide1.setPower(vSlidePower);
+         verticalSlide1.setPower(vSlidePower);
         verticalSlide2.setPower(vSlidePower);
 
 
         horizontalSlide1.setPower(hSlidePower);
         horizontalSlide2.setPower(-hSlidePower);
+
+        telemetry.addData("Servo Set Position: ",flip1.getPosition());
+        telemetry.addData("Servo Set Position: ",flip2.getPosition());
 
 
 
