@@ -11,32 +11,90 @@ import com.qualcomm.robotcore.hardware.CRServo;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Autonomous")
 public class Autonomous extends LinearOpMode {
 
-    DcMotor frontLeft, frontRight, backLeft, backRight, horizontalSlide1, horizontalSlide2, verticalSlide1,verticalSlide2;
-    Servo  flip1, flip2, flipClaw, arm, claw;
+    DcMotor frontLeft, frontRight, backLeft, backRight;
+    DcMotor horizontalSlide1, horizontalSlide2, verticalSlide1,verticalSlide2;
+    Servo  flip1, flip2, flipClaw, arm1, arm2, claw;
     CRServo intake1, intake2;
+    int vSlideUp = 1950;
+    int vSlideDown = 0;
+
+    int vSlideSpecimen = 900;
+
+
+    int hSlideOut = 1000;
+    int hSlideIn = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize hardware
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+       frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        arm = hardwareMap.get(Servo.class, "arm");
+
+
+        horizontalSlide1 = hardwareMap.get(DcMotor.class, "hSlide1");
+        horizontalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizontalSlide1.setTargetPosition(hSlideIn);
+        horizontalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        horizontalSlide2 = hardwareMap.get(DcMotor.class, "hSlide2");
+        horizontalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizontalSlide2.setTargetPosition(hSlideIn);
+        horizontalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+        verticalSlide1 = hardwareMap.get(DcMotor.class, "vSlide1");
+        verticalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        verticalSlide1.setTargetPosition(vSlideDown);
+        verticalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //vertical Slide encoders setup
+        verticalSlide2 = hardwareMap.get(DcMotor.class, "vSlide2");
+        verticalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        verticalSlide2.setTargetPosition(vSlideDown);
+        verticalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+        arm1 = hardwareMap.get(Servo.class, "arm1");
         claw = hardwareMap.get(Servo.class, "claw");
         flip1 = hardwareMap.get(Servo.class, "flip1");
+        intake1 = hardwareMap.get(CRServo.class, "intake1");
+        intake2 = hardwareMap.get(CRServo.class, "intake2");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
-        
-        moveBackward(0.3F, 900);
 
-       
-        followSpline(new double[]{0, 0}, new double[]{30, 60}, new double[]{60, 0}, 0.5F);
+        moveBackward(0.3F,1500);
+        sleep(250);
+        verticalSlide1.setTargetPosition(1200);
+        verticalSlide2.setTargetPosition(1200);
+        sleep(250);
+        arm1.setPosition(0.7);
 
-       
+
+
+
+
+        //strafeLeft(0.3F,250);
+      //  sleep(250);
+       // verticalSlideSample();
+       // sleep(250);
+        //arm1.setPosition(0.8);
+        //sleep(250);
+        //claw.setPosition(0);
+        //sleep(250);
+
+
+      //  moveBackward(0.3F, 900);
+
+
+
+       // ;xfollowSpline(new double[]{0, 0}, new double[]{30, 60}, new double[]{60, 0}, 0.5F);
+
+
     }
 
     // Method to calculate spline points
@@ -269,14 +327,49 @@ public class Autonomous extends LinearOpMode {
         horizontalSlide1.setPower(0);
         horizontalSlide2.setPower(0);
     }
-   
+
+    public void verticalSlideSample() {
+        verticalSlide1.setTargetPosition(vSlideUp);
+        verticalSlide2.setTargetPosition(vSlideUp);
+        verticalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        verticalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        verticalSlide1.setPower(0.5);
+        verticalSlide2.setPower(0.5);
+
+
+    }
+    public void verticalSlideSpecimen() {
+        verticalSlide1.setTargetPosition(vSlideSpecimen);
+        verticalSlide2.setTargetPosition(vSlideSpecimen);
+        verticalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        verticalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        verticalSlide1.setPower(0.5);
+        verticalSlide2.setPower(0.5);
+
+
+    }
+
+    public void verticalSlideDown() {
+        verticalSlide1.setTargetPosition(vSlideDown);
+        verticalSlide2.setTargetPosition(vSlideDown);
+        verticalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        verticalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        verticalSlide1.setPower(0.5);
+        verticalSlide2.setPower(0.5);
+
+
+    }
+
     public void flipArm (double position){
         flip1.setPosition(position);
         flip2.setPosition(position);
-        
-    }
-    
 
-    
+    }
+
+
+
 
 }
