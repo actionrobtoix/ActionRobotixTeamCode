@@ -55,7 +55,7 @@ public class TankDrive extends OpMode {
         flip2 = hardwareMap.get(Servo.class, "flip2");
 
         arm1 = hardwareMap.get(Servo.class, "arm1");
-        arm2 = hardwareMap.get(Servo.class, "arm2");
+       // arm2 = hardwareMap.get(Servo.class, "arm2");
 
 
 
@@ -89,7 +89,7 @@ public class TankDrive extends OpMode {
     }
 
     @Override
-    public void loop() {
+    public void  loop() {
 
 
       /*  if (Math.abs(gamepad2.right_stick_y) > 0.1) {
@@ -225,7 +225,7 @@ public class TankDrive extends OpMode {
         if (gamepad1.triangle)
             driveDivisor = (1); // Makes movement slower;
         if (gamepad1.square)
-            driveDivisor = (2); // Makes movement faster;
+            driveDivisor = (1.5); // Makes movement faster;
 
 
         // Reset Arm
@@ -286,7 +286,7 @@ public class TankDrive extends OpMode {
 
       //   setReversedServoPosition(arm1, 1);
 
-            arm1.setPosition(0.45);
+            arm1.setPosition(0.7);
 
 
         }
@@ -296,8 +296,6 @@ if (gamepad1.dpad_up) {
 
          // setReversedServoPosition(arm1, 0.4);
     arm1.setPosition(0.5);
-
-
 
 
 }
@@ -345,6 +343,8 @@ if (gamepad1.dpad_up) {
 
         telemetry.addData("Servo Set Position: ",flip1.getPosition());
         telemetry.addData("Servo Set Position: ",flip2.getPosition());
+        telemetry.addData("Servo Set Position: ",arm1.getPosition());
+        telemetry.addData("Servo Set Position: ",claw.getPosition());
 
 
 
