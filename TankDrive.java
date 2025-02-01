@@ -54,7 +54,6 @@ public class TankDrive extends OpMode {
         flip1 = hardwareMap.get(Servo.class, "flip1");
         flip1.setDirection(Servo.Direction.REVERSE);
         flip2 = hardwareMap.get(Servo.class, "flip2");
-        flip2.setDirection(Servo.Direction.REVERSE);
 
         arm1 = hardwareMap.get(Servo.class, "arm1");
        // arm2 = hardwareMap.get(Servo.class, "arm2");
@@ -177,19 +176,22 @@ public class TankDrive extends OpMode {
 
             // Set `flip1` position based on the toggle state
             if (toggleState) {
-                flip1.setPosition(0.7);// Position intake
-                flip2.setPosition(0.7);
+                flip1.setPosition(0.75);// Position intake
+                flip2.setDirection(Servo.Direction.REVERSE);
+                flip2.setPosition(0.75);
 
             }
             else {
-                flip1.setPosition(0.9); //position let it in
-                flip2.setPosition(0.9);
+                flip1.setPosition(0.8); //position let it in
+                flip2.setDirection(Servo.Direction.FORWARD);
+                flip2.setPosition(0.8);
 
             }
 
             if (gamepad2.y) {
-                flip1.setPosition(0.4); // flip tray
-                flip2.setPosition(0.4);
+                flip1.setPosition(1.0); // flip tray
+                flip2.setDirection(Servo.Direction.FORWARD);
+                flip2.setPosition(1.0);
             }
 
 
