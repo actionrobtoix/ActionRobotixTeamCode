@@ -35,30 +35,36 @@ public class Autonomous extends LinearOpMode {
 
         horizontalSlide1 = hardwareMap.get(DcMotor.class, "hSlide1");
         horizontalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horizontalSlide1.setTargetPosition(hSlideIn);
+        horizontalSlide1.setTargetPosition(0);
         horizontalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         horizontalSlide2 = hardwareMap.get(DcMotor.class, "hSlide2");
         horizontalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horizontalSlide2.setTargetPosition(hSlideIn);
+        horizontalSlide2.setTargetPosition(0);
         horizontalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
+
         verticalSlide1 = hardwareMap.get(DcMotor.class, "vSlide1");
-        verticalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalSlide1.setTargetPosition(vSlideDown);
-        verticalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+     //   verticalSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      //  verticalSlide1.setTargetPosition(0);
+       // verticalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
         //vertical Slide encoders setup
         verticalSlide2 = hardwareMap.get(DcMotor.class, "vSlide2");
-        verticalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalSlide2.setTargetPosition(vSlideDown);
-        verticalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       // verticalSlide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       // verticalSlide2.setTargetPosition(0);
+       // verticalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
         arm1 = hardwareMap.get(Servo.class, "arm1");
         claw = hardwareMap.get(Servo.class, "claw");
         flip1 = hardwareMap.get(Servo.class, "flip1");
+        flip2 = hardwareMap.get(Servo.class, "flip2");
         intake1 = hardwareMap.get(CRServo.class, "intake1");
         intake2 = hardwareMap.get(CRServo.class, "intake2");
 
@@ -67,18 +73,31 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
 
-        moveBackward(0.3F,1500);
+        moveVerticalSlide(0.5, 3600);
+        //verticalSlide1.setTargetPosition(1200);
+       // verticalSlide2.setTargetPosition(1200);
         sleep(250);
-        verticalSlide1.setTargetPosition(1200);
-        verticalSlide2.setTargetPosition(1200);
+        flipArm1(0.7);
         sleep(250);
-        arm1.setPosition(0.7);
+        moveBackward(0.3F, 2650);
+        sleep(250);
+        moveClaw(1);
+        sleep(250);
+        moveVerticalSlide(0.8,1200);
+       // flipArm1(1);
+
+
+     //   sleep(250);
+        //moveVerticalSlide1(1500);
+        //moveVerticalSlide2(1000);
+       // sleep(250);
+        //flipArm1(0.7);
 
 
 
 
 
-        //strafeLeft(0.3F,250);
+       // strafeLeft(0.3F,250);
       //  sleep(250);
        // verticalSlideSample();
        // sleep(250);
@@ -148,6 +167,31 @@ public class Autonomous extends LinearOpMode {
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
+    }
+
+    public void moveVerticalSlide1(int ticks) {
+        verticalSlide1.setTargetPosition(ticks); // Define target position
+        verticalSlide1.setPower(0.3); // Reduced power for slower movement
+        verticalSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Move to position using encoders
+
+        while (verticalSlide1.isBusy()) {
+            telemetry.addData("Vertical Slide 1 Position", verticalSlide1.getCurrentPosition());
+            telemetry.update();
+        }
+
+        verticalSlide1.setPower(0); // Stop motor once target is reached
+    }
+    public void moveVerticalSlide2(int ticks) {
+        verticalSlide2.setTargetPosition(ticks); // Define target position
+        verticalSlide2.setPower(0.3); // Reduced power for slower movement
+        verticalSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Move to position using encoders
+
+        while (verticalSlide2.isBusy()) {
+            telemetry.addData("Vertical Slide 2 Position", verticalSlide2.getCurrentPosition());
+            telemetry.update();
+        }
+
+        verticalSlide2.setPower(0); // Stop motor once target is reached
     }
 
 
@@ -328,6 +372,16 @@ public class Autonomous extends LinearOpMode {
         horizontalSlide2.setPower(0);
     }
 
+    public void moveVerticalSlide(double power, int time) {
+        verticalSlide1.setPower(power);
+        verticalSlide2.setPower(power);
+        sleep(time);
+        verticalSlide1.setPower(0);
+        verticalSlide1.setPower(0);
+
+
+    }
+
     public void verticalSlideSample() {
         verticalSlide1.setTargetPosition(vSlideUp);
         verticalSlide2.setTargetPosition(vSlideUp);
@@ -366,6 +420,11 @@ public class Autonomous extends LinearOpMode {
     public void flipArm (double position){
         flip1.setPosition(position);
         flip2.setPosition(position);
+
+    }
+
+    public void flipArm1 (double position){
+        arm1.setPosition(position);
 
     }
 
