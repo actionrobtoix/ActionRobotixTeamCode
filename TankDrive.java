@@ -52,7 +52,9 @@ public class TankDrive extends OpMode {
 
 
         flip1 = hardwareMap.get(Servo.class, "flip1");
+        flip1.setDirection(Servo.Direction.REVERSE);
         flip2 = hardwareMap.get(Servo.class, "flip2");
+        flip2.setDirection(Servo.Direction.REVERSE);
 
         arm1 = hardwareMap.get(Servo.class, "arm1");
        // arm2 = hardwareMap.get(Servo.class, "arm2");
@@ -175,31 +177,19 @@ public class TankDrive extends OpMode {
 
             // Set `flip1` position based on the toggle state
             if (toggleState) {
-                flip1.setPosition(0.1);// Position intake
-                flip2.setPosition(0.1);
-
-
-
-
-
+                flip1.setPosition(0.7);// Position intake
+                flip2.setPosition(0.7);
 
             }
             else {
-                flip1.setPosition(0.3); //position let it in
-                flip2.setPosition(0.3);
-
-
-
-
+                flip1.setPosition(0.9); //position let it in
+                flip2.setPosition(0.9);
 
             }
 
             if (gamepad2.y) {
-                flip1.setPosition(0.5); // flip tray
-                flip2.setPosition(0.5);
-
-
-
+                flip1.setPosition(0.4); // flip tray
+                flip2.setPosition(0.4);
             }
 
 
@@ -341,10 +331,11 @@ if (gamepad1.dpad_up) {
         horizontalSlide1.setPower(hSlidePower);
         horizontalSlide2.setPower(-hSlidePower);
 
-        telemetry.addData("Servo Set Position: ",flip1.getPosition());
-        telemetry.addData("Servo Set Position: ",flip2.getPosition());
-        telemetry.addData("Servo Set Position: ",arm1.getPosition());
-        telemetry.addData("Servo Set Position: ",claw.getPosition());
+        telemetry.addData("Flip1 Set Position: ",flip1.getPosition());
+        telemetry.addData("Flip2 Set Position: ",flip2.getPosition());
+        telemetry.addData("arm1 Set Position: ",arm1.getPosition());
+        telemetry.addData("claw Set Position: ",claw.getPosition());
+
 
 
 
